@@ -14,9 +14,11 @@ void SeekLeftRight::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void SeekLeftRight::Execute() {
-	double speed = 0.7;
-	double curve = NetworkTable::GetTable("datatable")->GetNumber("X");
-	Robot::getInstance().getDriveTrain().Drive(speed, curve);
+	double speed = 0.5;
+	double xCenter = NetworkTable::GetTable("datatable")->GetNumber("X");
+	xCenter = (xCenter - 320)/320.0;
+
+	Robot::getInstance().getDriveTrain().Drive(speed, -xCenter);
 }
 
 // Make this return true when this Command no longer needs to run execute()
