@@ -19,7 +19,7 @@ void DriveFor2::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveFor2::IsFinished() {
-	if (_timer.Get() > 120) {
+	if (_timer.Get() > 2) {
 		return true;
 	}
 	return false;

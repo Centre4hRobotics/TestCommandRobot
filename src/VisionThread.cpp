@@ -13,6 +13,7 @@
 #include <CameraServer.h>
 #include <IterativeRobot.h>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/types.hpp>
 
@@ -21,7 +22,7 @@ void VisionThread::Execute() {
 	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
 	// Set the resolution
 	camera.SetResolution(640, 480);
-	camera.SetExposureManual(1);
+	camera.SetExposureManual(15);
 	grip::GripPipeline pipeline;
 	// Get a CvSink. This will capture Mats from the Camera
 	cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
@@ -48,6 +49,18 @@ void VisionThread::Execute() {
 
 		pipeline.Process(mat);
 
-		outputStream.PutFrame(*pipeline.gethslThresholdOutput());
+		std::vector<std::vector<cv::Point> > &contours = *pipeline.getfindContoursOutput();
+//		for(unsigned i=0; i<contours.size(); ++i)
+//		{
+		cv::Moments m = moments(contours[0], false);
+		cv::Point2f c(m.m10/m.m00,m.m01/m.m00);
+		circle(mat, c, 10, cv::Scalar(0,0,255),5);
+		drawContours(mat, contours, 0, cv::Scalar(255, 0, 0), 5);
+//		}
+
+		outputStream.PutFrame(mat);
+
+		// push x value to network table
+		NetworkTable::GetTable("datatable")->PutNumber("X", m.m10/m.m00);
 	}
 }

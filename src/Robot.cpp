@@ -20,11 +20,14 @@ OperatorInterface *Robot::_operatorInterface = 0;
 Robot::Robot()
 	: frc::IterativeRobot()
 	, _driveTrain(new DriveTrain())
+	, _auto(0)
 {
 	// update singleton pointer
 	_theRobot = this;
 	_operatorInterface = new OperatorInterface();
 }
+
+
 VisionThread visionThread;
 void Robot::RobotInit() {
 	//chooser.AddDefault("Default Auto", new DriveWithJoystick());
@@ -35,6 +38,8 @@ void Robot::RobotInit() {
 	// If not, our robot program will not run
 	std::thread _visionThread(&VisionThread::Execute, visionThread);
 	_visionThread.detach();
+
+	_auto = new Autonomous();
 }
 
 /**
@@ -70,7 +75,7 @@ void Robot::AutonomousInit() {
 		autonomousCommand.reset(new ExampleCommand());
 	} */
 
-	_auto.Start();
+	_auto->Start();
 }
 
 void Robot::AutonomousPeriodic() {
@@ -82,7 +87,7 @@ void Robot::TeleopInit() {
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// this line or comment it out.
-	_auto.Cancel();
+	_auto->Cancel();
 }
 
 void Robot::TeleopPeriodic() {

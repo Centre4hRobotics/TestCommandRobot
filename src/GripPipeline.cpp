@@ -23,9 +23,9 @@ void GripPipeline::Process(cv::Mat &source0){
 	//Step HSL_Threshold0:
 	//input
 	cv::Mat hslThresholdInput = blurOutput;
-	double hslThresholdHue[] = {50.17985611510791, 100.13651877133107};
-	double hslThresholdSaturation[] = {68.79496402877697, 255.0};
-	double hslThresholdLuminance[] = {34.39748201438849, 255.0};
+	double hslThresholdHue[] = {50, 100};
+	double hslThresholdSaturation[] = {85, 255};
+	double hslThresholdLuminance[] = {50, 255.0};
 	hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, this->hslThresholdOutput);
 	//Step Find_Contours0:
 	//input
@@ -34,7 +34,7 @@ void GripPipeline::Process(cv::Mat &source0){
 	findContours(findContoursInput, findContoursExternalOnly, this->findContoursOutput);
 	//Step Filter_Contours0:
 	//input
-	std::vector<std::vector<cv::Point> > filterContoursContours = findContoursOutput;
+	/*std::vector<std::vector<cv::Point> > filterContoursContours = findContoursOutput;
 	double filterContoursMinArea = 150.0;  // default Double
 	double filterContoursMinPerimeter = 0;  // default Double
 	double filterContoursMinWidth = 0;  // default Double
@@ -47,6 +47,7 @@ void GripPipeline::Process(cv::Mat &source0){
 	double filterContoursMinRatio = 0;  // default Double
 	double filterContoursMaxRatio = 1000;  // default Double
 	filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, this->filterContoursOutput);
+	*/
 }
 
 /**

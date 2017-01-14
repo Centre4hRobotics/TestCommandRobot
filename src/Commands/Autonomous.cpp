@@ -2,7 +2,9 @@
 
 #include "DriveFor2.h"
 
-Autonomous::Autonomous() {
+Autonomous::Autonomous() :
+	CommandGroup("Autonomous")
+{
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
