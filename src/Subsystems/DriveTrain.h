@@ -16,6 +16,7 @@ public:
 	DriveTrain();
 	void InitDefaultCommand();
 	void Drive(Joystick *);
+	void Drive(double, double);
 	void DriveForward();
 	void Stop();
 };
