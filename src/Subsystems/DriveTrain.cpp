@@ -14,7 +14,11 @@ void DriveTrain::InitDefaultCommand() {
 // here. Call these from Commands.
 
 void DriveTrain::Drive(Joystick *stick) {
-	_robotDrive->ArcadeDrive(stick);
+	_robotDrive->ArcadeDrive(stick->GetY(), -stick->GetX());
+}
+
+void DriveTrain::Drive(double speed, double curve) {
+	_robotDrive->ArcadeDrive(speed, curve);
 }
 
 void DriveTrain::DriveForward() {
