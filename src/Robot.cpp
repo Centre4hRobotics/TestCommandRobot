@@ -28,7 +28,6 @@ Robot::Robot()
 }
 
 
-VisionThread visionThread;
 void Robot::RobotInit() {
 	//chooser.AddDefault("Default Auto", new DriveWithJoystick());
 	//chooser.AddObject("My Auto", new MyAutoCommand());
@@ -36,8 +35,10 @@ void Robot::RobotInit() {
 
 	// We need to run our vision program in a separate Thread.
 	// If not, our robot program will not run
-	std::thread _visionThread(&VisionThread::Execute, visionThread);
-	_visionThread.detach();
+	VisionThread *visionThread = new VisionThread();
+
+	std::thread Thread(&VisionThread::Execute, *visionThread);
+	Thread.detach();
 
 	_auto = new Autonomous();
 }

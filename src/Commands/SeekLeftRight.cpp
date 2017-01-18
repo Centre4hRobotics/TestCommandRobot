@@ -15,10 +15,23 @@ void SeekLeftRight::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void SeekLeftRight::Execute() {
 	double speed = 0.5;
-	double xCenter = NetworkTable::GetTable("datatable")->GetNumber("X");
-	xCenter = (xCenter - 320)/320.0;
 
-	Robot::getInstance().getDriveTrain().Drive(speed, -xCenter);
+	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
+
+	bool foundContour = table->GetBoolean("FoundContour", false);
+
+	std::cout << "in SeekLeftRight: " << foundContour << std::endl;
+
+	if (foundContour)
+	{
+		double xCenter = table->GetNumber("XCenter", 0.0);
+		double Steer = (160.0 - xCenter)/160.0;
+		std::cout << "Steering: " << xCenter << ", " << Steer << std::endl;
+
+		Robot::getInstance().getDriveTrain().Drive(speed, Steer);
+	}
+	else
+		Robot::getInstance().getDriveTrain().Drive(0.0, 0.0);
 }
 
 // Make this return true when this Command no longer needs to run execute()

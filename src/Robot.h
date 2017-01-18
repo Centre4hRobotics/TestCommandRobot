@@ -39,9 +39,6 @@ private:
 	static OperatorInterface *_operatorInterface;
 
 	DriveTrain *_driveTrain;
-
-//	std::unique_ptr<frc::Command> autonomousCommand;
-//	frc::SendableChooser<frc::Command*> chooser;
 	Autonomous *_auto;
 
 };
