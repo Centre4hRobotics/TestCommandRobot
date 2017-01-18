@@ -3,6 +3,7 @@
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain") {
 	_robotDrive = new RobotDrive(0, 1);
+	//_robotDrive->SetSensitivity(0.25);
 }
 void DriveTrain::InitDefaultCommand() {
 	// Set the default command for a subsystem here.

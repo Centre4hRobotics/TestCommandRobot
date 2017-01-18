@@ -14,20 +14,22 @@ void SeekLeftRight::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void SeekLeftRight::Execute() {
-	double speed = 0.5;
-
+	double speed = 0.75;
+	double maxSteer = 0.5;
 	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 
 	bool foundContour = table->GetBoolean("FoundContour", false);
 
-	std::cout << "in SeekLeftRight: " << foundContour << std::endl;
+	//std::cout << "in SeekLeftRight: " << foundContour << std::endl;
 
 	if (foundContour)
 	{
 		double xCenter = table->GetNumber("XCenter", 0.0);
 		double Steer = (160.0 - xCenter)/160.0;
-		std::cout << "Steering: " << xCenter << ", " << Steer << std::endl;
-
+		Steer = std::min(Steer, maxSteer);
+		Steer = std::max(Steer, -maxSteer);
+		//std::cout << "Steering: " << xCenter << ", " << Steer << std::endl;
+		table->PutNumber("Steer",Steer);
 		Robot::getInstance().getDriveTrain().Drive(speed, Steer);
 	}
 	else
