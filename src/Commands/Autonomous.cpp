@@ -1,6 +1,5 @@
 #include "Autonomous.h"
 
-#include "DriveFor2.h"
 #include "SeekLeftRight.h"
 #include "TurnToTarget.h"
 
@@ -23,7 +22,6 @@ Autonomous::Autonomous() :
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-//	AddSequential(new DriveFor2());
 //	AddSequential(new SeekLeftRight());
 	AddSequential(new TurnToTarget());
 }

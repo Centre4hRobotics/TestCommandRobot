@@ -9,13 +9,12 @@
 
 #include "OperatorInterface.h"
 #include "Subsystems/DriveTrain.h"
+#include "Subsystems/Sensor.h"
 
 #include "Commands/Autonomous.h"
 
 #ifndef ROBOT_H_
 #define ROBOT_H_
-
-class DriveTrain;
 
 class Robot : public frc::IterativeRobot {
 public:
@@ -33,6 +32,7 @@ public:
 
 
 	DriveTrain &getDriveTrain() {return *_driveTrain;}
+	Sensor &getSensor() {return *_sensor;}
 
 private:
 	static Robot *_theRobot;
@@ -40,6 +40,7 @@ private:
 
 	DriveTrain *_driveTrain;
 	Autonomous *_auto;
+	Sensor *_sensor;
 
 };
 

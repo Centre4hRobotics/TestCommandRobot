@@ -23,19 +23,26 @@ void TurnToTarget::Initialize() {
 	*/
 
 	// test -- just turn 90 degrees...
-	_targetAngle = Robot::getInstance().getDriveTrain().getGyroAngle() + 90.0;
+	_targetAngle = Robot::getInstance().getSensor().getGyroAngle() + 90.0;
 	_done = false;
 
 	NetworkTable::GetTable("datatable")->PutNumber("TargetAngle", _targetAngle);
+
+	std::cout << "Initialize completed" << std::endl;
 
 }
 
 // Called repeatedly when this Command is scheduled to run
 void TurnToTarget::Execute() {
-	double currentAngle = Robot::getInstance().getDriveTrain().getGyroAngle();
+	std::cout << "Executing" << std::endl;
+
+	double currentAngle = Robot::getInstance().getSensor().getGyroAngle();
 
 	NetworkTable::GetTable("datatable")->PutNumber("CurrentAngle", currentAngle);
+	NetworkTable::GetTable("datatable")->PutNumber("UltrasonicRight", Robot::getInstance().getSensor().getRightUltrasonic());
+	NetworkTable::GetTable("datatable")->PutNumber("UltrasonicLeft", Robot::getInstance().getSensor().getLeftUltrasonic());
 
+	/*
 	double angleDiff = currentAngle - _targetAngle;
 	if (fabs(angleDiff) < 1.0)
 	{
@@ -46,6 +53,8 @@ void TurnToTarget::Execute() {
 	{
 		Robot::getInstance().getDriveTrain().Spin(angleDiff*SPIN_MULTIPLIER);
 	}
+	*/
+	Robot::getInstance().getDriveTrain().Stop();
 }
 
 // Make this return true when this Command no longer needs to run execute()

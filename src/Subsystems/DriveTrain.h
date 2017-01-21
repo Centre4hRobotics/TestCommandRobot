@@ -11,7 +11,7 @@ private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
 	RobotDrive *_robotDrive;
-	ADXRS450_Gyro *_gyro;
+
 public:
 	DriveTrain();
 	void InitDefaultCommand();
@@ -19,8 +19,6 @@ public:
 	void Drive(double, double);
 	void DriveForward();
 	void Stop();
-
-	double getGyroAngle();
 
 	void Spin(double speed);
 };
