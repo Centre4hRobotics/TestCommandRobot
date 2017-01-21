@@ -7,6 +7,7 @@ TurnToTarget::TurnToTarget() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&Robot::getInstance().getDriveTrain());
+	Requires(&Robot::getInstance().getSensor());
 }
 
 // Called just before this Command runs the first time
@@ -28,21 +29,15 @@ void TurnToTarget::Initialize() {
 
 	NetworkTable::GetTable("datatable")->PutNumber("TargetAngle", _targetAngle);
 
-	std::cout << "Initialize completed" << std::endl;
-
 }
 
 // Called repeatedly when this Command is scheduled to run
 void TurnToTarget::Execute() {
-	std::cout << "Executing" << std::endl;
 
 	double currentAngle = Robot::getInstance().getSensor().getGyroAngle();
 
 	NetworkTable::GetTable("datatable")->PutNumber("CurrentAngle", currentAngle);
-	NetworkTable::GetTable("datatable")->PutNumber("UltrasonicRight", Robot::getInstance().getSensor().getRightUltrasonic());
-	NetworkTable::GetTable("datatable")->PutNumber("UltrasonicLeft", Robot::getInstance().getSensor().getLeftUltrasonic());
 
-	/*
 	double angleDiff = currentAngle - _targetAngle;
 	if (fabs(angleDiff) < 1.0)
 	{
@@ -53,8 +48,6 @@ void TurnToTarget::Execute() {
 	{
 		Robot::getInstance().getDriveTrain().Spin(angleDiff*SPIN_MULTIPLIER);
 	}
-	*/
-	Robot::getInstance().getDriveTrain().Stop();
 }
 
 // Make this return true when this Command no longer needs to run execute()

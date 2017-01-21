@@ -18,8 +18,13 @@
 #include <opencv2/core/types.hpp>
 
 void VisionThread::Execute() {
+
 	// Get the USB camera from CameraServer
 	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
+
+	// Start driver assist camera
+	cs::UsbCamera driverCamera = CameraServer::GetInstance()->StartAutomaticCapture(1);
+
 	// Set the resolution
 	camera.SetResolution(320, 240);
 	camera.SetExposureManual(15);

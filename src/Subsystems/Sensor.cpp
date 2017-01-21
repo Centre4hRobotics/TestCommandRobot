@@ -4,7 +4,9 @@
 Sensor::Sensor() : Subsystem("Sensor") {
 	_gyro = new ADXRS450_Gyro();
 	_leftUltrasonic = new Ultrasonic(0, 1);
+	_leftUltrasonic->SetAutomaticMode(true);
 	_rightUltrasonic = new Ultrasonic(2, 3);
+	_rightUltrasonic->SetAutomaticMode(true);
 }
 
 void Sensor::InitDefaultCommand() {

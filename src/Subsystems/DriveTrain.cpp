@@ -16,7 +16,7 @@ void DriveTrain::InitDefaultCommand() {
 // here. Call these from Commands.
 
 void DriveTrain::Drive(Joystick *stick) {
-	_robotDrive->ArcadeDrive(stick->GetY(), -stick->GetX());
+	_robotDrive->ArcadeDrive(-stick->GetY(), -stick->GetX());
 }
 
 void DriveTrain::Drive(double speed, double curve) {
@@ -34,9 +34,35 @@ void DriveTrain::Stop() {
 void DriveTrain::Spin(double speed)
 {
 	// don't allow to spin faster than some limit
-	static const double MAX_SPIN_RATE = 1.0;
-	speed = std::min(speed, MAX_SPIN_RATE);
-	speed = std::max(speed, -MAX_SPIN_RATE);
+	static const double MAX_SPIN_RATE = 0.7;
+	static const double MIN_SPIN_RATE = 0.2;
+	static const double STOP_SPIN_RATE = 0.1;
+	if (speed > STOP_SPIN_RATE)
+	{
+		if (speed < MIN_SPIN_RATE)
+		{
+			speed = MIN_SPIN_RATE;
+		}
+		else if (speed > MAX_SPIN_RATE)
+		{
+			speed = MAX_SPIN_RATE;
+		}
+	}
+	else if (speed < -STOP_SPIN_RATE)
+	{
+		if (speed > -MIN_SPIN_RATE)
+		{
+			speed = -MIN_SPIN_RATE;
+		}
+		else if (speed < -MAX_SPIN_RATE)
+		{
+			speed = -MAX_SPIN_RATE;
+		}
+	}
+	else
+	{
+		speed = 0;
+	}
 
 	_robotDrive->ArcadeDrive(0.0, speed);
 }

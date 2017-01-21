@@ -24,4 +24,6 @@ Autonomous::Autonomous() :
 	// arm.
 //	AddSequential(new SeekLeftRight());
 	AddSequential(new TurnToTarget());
+
+	std::cout << "Autonomous::Autonomous()";
 }
