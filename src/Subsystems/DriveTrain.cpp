@@ -1,8 +1,10 @@
 #include "DriveTrain.h"
 #include "../Commands/DriveWithJoystick.h"
 
+
 DriveTrain::DriveTrain() : Subsystem("DriveTrain") {
 	_robotDrive = new RobotDrive(0, 1);
+	_gyro = new ADXRS450_Gyro();
 	//_robotDrive->SetSensitivity(0.25);
 }
 void DriveTrain::InitDefaultCommand() {
@@ -30,3 +32,17 @@ void DriveTrain::Stop() {
 	_robotDrive->Drive(0, 0);
 }
 
+void DriveTrain::Spin(double speed)
+{
+	// don't allow to spin faster than some limit
+	static const double MAX_SPIN_RATE = 1.0;
+	speed = std::min(speed, MAX_SPIN_RATE);
+	speed = std::max(speed, -MAX_SPIN_RATE);
+
+	_robotDrive->ArcadeDrive(0.0, speed);
+}
+
+double DriveTrain::getGyroAngle()
+{
+	return _gyro->GetAngle();
+}
