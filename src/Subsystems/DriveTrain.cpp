@@ -33,10 +33,11 @@ void DriveTrain::Stop() {
 
 void DriveTrain::Spin(double speed)
 {
+	NetworkTable::GetTable("datatable")->PutNumber("SpeedIn", speed);
 	// don't allow to spin faster than some limit
 	static const double MAX_SPIN_RATE = 0.7;
-	static const double MIN_SPIN_RATE = 0.2;
-	static const double STOP_SPIN_RATE = 0.1;
+	static const double MIN_SPIN_RATE = 0.6;
+	static const double STOP_SPIN_RATE = 0.0;
 	if (speed > STOP_SPIN_RATE)
 	{
 		if (speed < MIN_SPIN_RATE)
@@ -65,4 +66,5 @@ void DriveTrain::Spin(double speed)
 	}
 
 	_robotDrive->ArcadeDrive(0.0, speed);
+	NetworkTable::GetTable("datatable")->PutNumber("SpeedOut", speed);
 }

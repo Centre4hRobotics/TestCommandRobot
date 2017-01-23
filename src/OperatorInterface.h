@@ -13,6 +13,8 @@ public:
 
 private:
 	Joystick *_joystick;
+
+	JoystickButton *Button_X;
 };
 
 #endif  // OI_H

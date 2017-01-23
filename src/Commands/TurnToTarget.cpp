@@ -8,27 +8,41 @@ TurnToTarget::TurnToTarget() {
 	// eg. Requires(Robot::chassis.get());
 	Requires(&Robot::getInstance().getDriveTrain());
 	Requires(&Robot::getInstance().getSensor());
+
+	SetTimeout(10);
+
+	_done = false;
 }
 
 // Called just before this Command runs the first time
 void TurnToTarget::Initialize() {
-/*	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
+
+
+	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 
 	bool foundContour = table->GetBoolean("FoundContour", false);
+	double angleOffset = 0.0;
 
 	if (foundContour)
 	{
 		double xCenter = table->GetNumber("XCenter", 0.0);
-		double Steer = (160.0 - xCenter)/160.0;
+		angleOffset = (xCenter-160)*0.159;
+		if (angleOffset > 10) {
+			angleOffset -= 10;
+		}
+
+		std::cout << "TurnToTarget::Initialize()" << std::endl;
+
+		_targetAngle = Robot::getInstance().getSensor().getGyroAngle() + angleOffset;
+
+		NetworkTable::GetTable("datatable")->PutNumber("TargetAngle", _targetAngle);
+
+		_done = false;
 	}
-	*/
-
-	// test -- just turn 90 degrees...
-	_targetAngle = Robot::getInstance().getSensor().getGyroAngle() + 90.0;
-	_done = false;
-
-	NetworkTable::GetTable("datatable")->PutNumber("TargetAngle", _targetAngle);
-
+	else
+	{
+		_done = true;
+	}
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -48,6 +62,8 @@ void TurnToTarget::Execute() {
 	{
 		Robot::getInstance().getDriveTrain().Spin(angleDiff*SPIN_MULTIPLIER);
 	}
+
+	std::cout << "TurnToTarget::Execute()" << std::endl;
 }
 
 // Make this return true when this Command no longer needs to run execute()

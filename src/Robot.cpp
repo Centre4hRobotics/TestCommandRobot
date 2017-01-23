@@ -20,8 +20,8 @@ OperatorInterface *Robot::_operatorInterface = 0;
 Robot::Robot()
 	: frc::IterativeRobot()
 	, _driveTrain(new DriveTrain())
-	, _sensor(new Sensor())
 	, _auto(0)
+	, _sensor(new Sensor())
 {
 	// update singleton pointer
 	_theRobot = this;
