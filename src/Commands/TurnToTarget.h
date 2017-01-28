@@ -2,6 +2,7 @@
 #define TurnToTarget_H
 
 #include <WPILib.h>
+#include "TurnController.h"
 
 class TurnToTarget : public Command {
 public:
@@ -13,8 +14,8 @@ public:
 	void Interrupted();
 
 private:
-	double _targetAngle;
 	bool _done;
+	TurnController _turnController;
 };
 
 #endif  // TurnToTarget_H

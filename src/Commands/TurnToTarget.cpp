@@ -33,9 +33,12 @@ void TurnToTarget::Initialize() {
 
 		std::cout << "TurnToTarget::Initialize()" << std::endl;
 
-		_targetAngle = Robot::getInstance().getSensor().getGyroAngle() + angleOffset;
+		double targetAngle = Robot::getInstance().getSensor().getGyroAngle() + angleOffset;
 
-		NetworkTable::GetTable("datatable")->PutNumber("TargetAngle", _targetAngle);
+		_turnController.setTargetAngle(targetAngle);
+		_turnController.enable();
+
+		NetworkTable::GetTable("datatable")->PutNumber("TargetAngle", targetAngle);
 
 		_done = false;
 	}
@@ -45,25 +48,9 @@ void TurnToTarget::Initialize() {
 	}
 }
 
-// Called repeatedly when this Command is scheduled to run
-void TurnToTarget::Execute() {
-
-	double currentAngle = Robot::getInstance().getSensor().getGyroAngle();
-
-	NetworkTable::GetTable("datatable")->PutNumber("CurrentAngle", currentAngle);
-
-	double angleDiff = currentAngle - _targetAngle;
-	if (fabs(angleDiff) < 1.0)
-	{
-		_done = true;
-		Robot::getInstance().getDriveTrain().Stop();
-	}
-	else
-	{
-		Robot::getInstance().getDriveTrain().Spin(angleDiff*SPIN_MULTIPLIER);
-	}
-
-	std::cout << "TurnToTarget::Execute()" << std::endl;
+void TurnToTarget::Execute()
+{
+	_done = _turnController.isDone();
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -73,7 +60,7 @@ bool TurnToTarget::IsFinished() {
 
 // Called once after isFinished returns true
 void TurnToTarget::End() {
-
+	_turnController.disable();
 }
 
 // Called when another command which requires one or more of the same
