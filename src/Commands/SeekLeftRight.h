@@ -11,6 +11,9 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+
+private:
+	bool _done;
 };
 
 #endif  // SeekLeftRight_H

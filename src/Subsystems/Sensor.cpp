@@ -25,6 +25,11 @@ double Sensor::getLeftUltrasonic() {
 	return _leftUltrasonic->GetRangeInches();
 }
 
+void Sensor::resetGyro()
+{
+	_gyro->Reset();
+}
+
 double Sensor::getGyroAngle()
 {
 	return _gyro->GetAngle();

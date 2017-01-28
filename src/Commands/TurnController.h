@@ -10,31 +10,19 @@
 
 #include <WPIlib.h>
 
-class TurnController : public PIDSource, PIDOutput
+class TurnController
 {
 public:
 	// Turn a specific number of degrees left or right
 	TurnController();
 
-	// start the controller running
-	void enable();
-
-	// stop the controller
-	void disable();
-
-	// are we done yet?
-	bool isDone();
-
-	// implement PIDSource interface
-	double PIDGet();
-
-	// implement PIDOutput interface
-	void PIDWrite(double output);
+	// Update the controller -- return true if we're on target and slow
+	bool execute();
 
 	void setTargetAngle(double angle);
 
 private:
-PIDController _pidController;
+	double _targetAngle;
 };
 
 #endif /* SRC_COMMANDS_TURNCONTROLLER_H_ */

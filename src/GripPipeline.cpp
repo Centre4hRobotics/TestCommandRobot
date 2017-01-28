@@ -19,7 +19,9 @@ void GripPipeline::Process(cv::Mat &source0){
 	cv::Mat blurInput = source0;
 	BlurType blurType = BlurType::GAUSSIAN;
 	double blurRadius = 5.405405405405405;  // default Double
-	blur(blurInput, blurType, blurRadius, this->blurOutput);
+//	blur(blurInput, blurType, blurRadius, this->blurOutput);
+	this->blurOutput = blurInput;
+
 	//Step HSL_Threshold0:
 	//input
 	cv::Mat hslThresholdInput = blurOutput;
@@ -34,7 +36,7 @@ void GripPipeline::Process(cv::Mat &source0){
 	findContours(findContoursInput, findContoursExternalOnly, this->findContoursOutput);
 	//Step Filter_Contours0:
 	//input
-	/*std::vector<std::vector<cv::Point> > filterContoursContours = findContoursOutput;
+	std::vector<std::vector<cv::Point> > filterContoursContours = findContoursOutput;
 	double filterContoursMinArea = 150.0;  // default Double
 	double filterContoursMinPerimeter = 0;  // default Double
 	double filterContoursMinWidth = 0;  // default Double
@@ -47,7 +49,6 @@ void GripPipeline::Process(cv::Mat &source0){
 	double filterContoursMinRatio = 0;  // default Double
 	double filterContoursMaxRatio = 1000;  // default Double
 	filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, this->filterContoursOutput);
-	*/
 }
 
 /**

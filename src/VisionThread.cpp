@@ -53,7 +53,7 @@ void VisionThread::Execute() {
 		// run the GRIP pipeline
 		pipeline.Process(mat);
 
-		std::vector<std::vector<cv::Point> > &contours = *pipeline.getfindContoursOutput();
+		std::vector<std::vector<cv::Point> > contours = *pipeline.getfindContoursOutput();
 		bool foundContour = false;
 		double xCenter = 0.0;
 		if (contours.size() == 1)
@@ -63,6 +63,55 @@ void VisionThread::Execute() {
 			drawContours(mat, contours, 0, cv::Scalar(255, 0, 0), 5);
 			xCenter = m.m10/m.m00;
 		}
+		else if (contours.size() == 2)
+		{
+			// found two contours
+			foundContour = true;
+			cv::Moments m0 = moments(contours[0], false);
+			cv::Moments m1 = moments(contours[1], false);
+			drawContours(mat, contours, 0, cv::Scalar(255, 0, 0), 5);
+			drawContours(mat, contours, 1, cv::Scalar(255, 0, 0), 5);
+
+			xCenter = ((m0.m10/m0.m00)+(m1.m10/m1.m00))*0.5;
+		}
+		else if (contours.size() > 2)
+		{
+			double yMin0 = 0;
+			double yMin1 = 0;
+
+			unsigned i0, i1;
+			for(unsigned i=0; i<contours.size(); ++i)
+			{
+				cv::Moments m = moments(contours[i], false);
+
+				if (m.m00 > 25.0) {
+					double y = m.m01/m.m00;
+
+					if (y > yMin0) {
+						yMin0 = y;
+						i0 = i;
+					}
+					else if(y > yMin1) {
+						yMin1 = y;
+						i1 = i;
+					}
+				}
+			}
+
+			cv::Moments m0 = moments(contours[i0], false);
+			cv::Moments m1 = moments(contours[i1], false);
+
+			drawContours(mat, contours, i0, cv::Scalar(255, 0, 0), 5);
+			drawContours(mat, contours, i1, cv::Scalar(255, 0, 0), 5);
+
+			xCenter = ((m0.m10/m0.m00)+(m1.m10/m1.m00))*0.5;
+			foundContour = true;
+		}
+		else
+		{
+			foundContour = false;
+		}
+
 
 		outputStream.PutFrame(mat);
 

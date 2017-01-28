@@ -16,7 +16,7 @@ void SeekLeftRight::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void SeekLeftRight::Execute() {
 	double speed = 0.75;
-	double maxSteer = 0.5;
+	double maxSteer = 1.0;
 	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 
 	bool foundContour = table->GetBoolean("FoundContour", false);
@@ -26,22 +26,27 @@ void SeekLeftRight::Execute() {
 	if (foundContour)
 	{
 		double xCenter = table->GetNumber("XCenter", 0.0);
-		double Steer = (160.0 - xCenter)/160.0;
-		/*
+		double Steer = 1.0*(160.0 - xCenter)/160.0;
+
 		Steer = std::min(Steer, maxSteer);
 		Steer = std::max(Steer, -maxSteer);
-		*/
-		//std::cout << "Steering: " << xCenter << ", " << Steer << std::endl;
+
+
 		table->PutNumber("Steer",Steer);
 		Robot::getInstance().getDriveTrain().Drive(speed, Steer);
+
+		_done = false;
 	}
 	else
+	{
 		Robot::getInstance().getDriveTrain().Drive(0.0, 0.0);
+		_done = true;
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool SeekLeftRight::IsFinished() {
-	return false;
+	return _done;
 }
 
 // Called once after isFinished returns true

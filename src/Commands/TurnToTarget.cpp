@@ -2,6 +2,7 @@
 #include "../Robot.h"
 
 static const double SPIN_MULTIPLIER = .0125;
+static const double DEGREES_PER_PIXEL = 0.159; // math says .159
 
 TurnToTarget::TurnToTarget() {
 	// Use Requires() here to declare subsystem dependencies
@@ -16,29 +17,17 @@ TurnToTarget::TurnToTarget() {
 
 // Called just before this Command runs the first time
 void TurnToTarget::Initialize() {
-
-
 	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 
 	bool foundContour = table->GetBoolean("FoundContour", false);
-	double angleOffset = 0.0;
-
 	if (foundContour)
 	{
 		double xCenter = table->GetNumber("XCenter", 0.0);
-		angleOffset = (xCenter-160)*0.159;
-		if (angleOffset > 10) {
-			angleOffset -= 10;
-		}
+		double angleOffset = (xCenter-160)*DEGREES_PER_PIXEL;
 
-		std::cout << "TurnToTarget::Initialize()" << std::endl;
+		_turnController.setTargetAngle(angleOffset);
 
-		double targetAngle = Robot::getInstance().getSensor().getGyroAngle() + angleOffset;
-
-		_turnController.setTargetAngle(targetAngle);
-		_turnController.enable();
-
-		NetworkTable::GetTable("datatable")->PutNumber("TargetAngle", targetAngle);
+		NetworkTable::GetTable("datatable")->PutNumber("angleOffset", angleOffset);
 
 		_done = false;
 	}
@@ -50,7 +39,7 @@ void TurnToTarget::Initialize() {
 
 void TurnToTarget::Execute()
 {
-	_done = _turnController.isDone();
+	_done = _turnController.execute();
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -60,11 +49,10 @@ bool TurnToTarget::IsFinished() {
 
 // Called once after isFinished returns true
 void TurnToTarget::End() {
-	_turnController.disable();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void TurnToTarget::Interrupted() {
-
+	End();
 }

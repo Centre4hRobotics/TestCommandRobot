@@ -17,6 +17,7 @@ public:
 	void InitDefaultCommand();
 	double getLeftUltrasonic();
 	double getRightUltrasonic();
+	void resetGyro();
 	double getGyroAngle();
 };
 
