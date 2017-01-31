@@ -39,6 +39,10 @@ bool TurnController::execute()
 
 	Robot::getInstance().getDriveTrain().Spin(spinSpeed);
 
-	return (fabs(error) < 2.0 &&
-			spinSpeed < 0.5);
+	if (fabs(error) < 2.0)
+		_onTarget++;
+	else
+		_onTarget = 0;
+
+	return (_onTarget >= 10);
 }

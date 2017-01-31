@@ -22,6 +22,7 @@ public:
 	void setTargetAngle(double angle);
 
 private:
+	int _onTarget;
 	double _targetAngle;
 };
 
