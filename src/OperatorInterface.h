@@ -15,9 +15,6 @@ private:
 	Joystick *_joystick;
 
 	JoystickButton *Button_X;
-
-	JoystickButton *Button_Y;
-
 };
 
 #endif  // OI_H
