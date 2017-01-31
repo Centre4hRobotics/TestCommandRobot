@@ -113,6 +113,8 @@ void VisionThread::Execute() {
 		}
 
 
+
+
 		outputStream.PutFrame(mat);
 
 		// push x value to network table
