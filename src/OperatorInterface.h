@@ -14,8 +14,9 @@ public:
 private:
 	Joystick *_joystick;
 
+	JoystickButton *Button_A;
+	JoystickButton *Button_B;
 	JoystickButton *Button_X;
-
 	JoystickButton *Button_Y;
 
 };

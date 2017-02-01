@@ -18,11 +18,31 @@ void Sensor::InitDefaultCommand() {
 // here. Call these from Commands.
 
 double Sensor::getRightUltrasonic() {
-	return _rightUltrasonic->GetRangeInches();
+	if (_rightUltrasonic->IsRangeValid())
+		return _rightUltrasonic->GetRangeInches();
+	return -1.0;
 }
 
 double Sensor::getLeftUltrasonic() {
-	return _leftUltrasonic->GetRangeInches();
+	if (_leftUltrasonic->IsRangeValid())
+		return _leftUltrasonic->GetRangeInches();
+	return -1.0;
+}
+
+double Sensor::getAverageUltrasonic() {
+	double left = getLeftUltrasonic();
+	double right = getRightUltrasonic();
+
+	if (left > 0.0)
+	{
+		if (right > 0.0)
+			return 0.5*(left + right); // both valid
+		else
+			return left; // only left valid
+	}
+	else if (right > 0.0)
+		return right; // only right valid
+	return -1.0; // neither valid
 }
 
 void Sensor::resetGyro()

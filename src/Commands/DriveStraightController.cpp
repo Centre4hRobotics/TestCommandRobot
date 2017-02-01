@@ -3,7 +3,10 @@
 #include "Robot.h"
 #include "Subsystems/DriveTrain.h"
 
-DriveStraightController::DriveStraightController() {
+DriveStraightController::DriveStraightController()
+{
+	_speed = 0.75;
+
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 }
@@ -16,22 +19,7 @@ void DriveStraightController::Initialize() {
 void DriveStraightController::Execute() {
 	double dirDiff = (_startDirection - Robot::getInstance().getSensor().getGyroAngle());
 
-	Robot::getInstance().getDriveTrain().Drive(_speed, dirDiff*0.02);
-
-}
-
-bool DriveStraightController::IsFinished() {
-	return false;
-}
-
-void DriveStraightController::End() {
-
-}
-
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
-void DriveStraightController::Interrupted() {
-
+	Robot::getInstance().getDriveTrain().Drive(_speed, dirDiff*-0.15);
 }
 
 void DriveStraightController::SetSpeed(double speed){
