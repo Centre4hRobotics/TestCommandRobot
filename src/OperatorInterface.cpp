@@ -6,7 +6,8 @@
 
 OperatorInterface::OperatorInterface()
 {
-@@ -9,4 +10,8 @@ OperatorInterface::OperatorInterface()
+	_joystick = new Joystick(0);
+
 	Button_X = new JoystickButton(_joystick, 3);
 
 	Button_X->WhenPressed(new TurnAndSeek());
