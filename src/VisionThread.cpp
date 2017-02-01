@@ -76,7 +76,8 @@ void VisionThread::Execute() {
 		}
 		else if (contours.size() > 2)
 		{
-			double yMin0 = 0;
+			foundContour = false;
+/*			double yMin0 = 0;
 			double yMin1 = 0;
 
 			unsigned i0, i1;
@@ -101,11 +102,12 @@ void VisionThread::Execute() {
 			cv::Moments m0 = moments(contours[i0], false);
 			cv::Moments m1 = moments(contours[i1], false);
 
-			drawContours(mat, contours, i0, cv::Scalar(255, 0, 0), 5);
-			drawContours(mat, contours, i1, cv::Scalar(255, 0, 0), 5);
+			//drawContours(mat, contours, i0, cv::Scalar(255, 0, 0), 5);
+			//drawContours(mat, contours, i1, cv::Scalar(255, 0, 0), 5);
 
 			xCenter = ((m0.m10/m0.m00)+(m1.m10/m1.m00))*0.5;
-			foundContour = true;
+			foundContour = true;*/
+
 		}
 		else
 		{
