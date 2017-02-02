@@ -13,21 +13,13 @@ GripPipeline::GripPipeline() {
 * Sources need to be set before calling this method. 
 *
 */
-void GripPipeline::Process(cv::Mat &source0){
-	//Step Blur0:
-	//input
-	cv::Mat blurInput = source0;
-	BlurType blurType = BlurType::GAUSSIAN;
-	double blurRadius = 5.405405405405405;  // default Double
-//	blur(blurInput, blurType, blurRadius, this->blurOutput);
-	this->blurOutput = blurInput;
-
+void GripPipeline::Process(cv::Mat source0){
 	//Step HSL_Threshold0:
 	//input
-	cv::Mat hslThresholdInput = blurOutput;
-	double hslThresholdHue[] = {50, 100};
-	double hslThresholdSaturation[] = {85, 255};
-	double hslThresholdLuminance[] = {50, 255.0};
+	cv::Mat hslThresholdInput = source0;
+	double hslThresholdHue[] = {60.43165724912136, 92.02812723492575};
+	double hslThresholdSaturation[] = {139.88309352517985, 255.0};
+	double hslThresholdLuminance[] = {13.758992805755396, 139.0909090909091};
 	hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, this->hslThresholdOutput);
 	//Step Find_Contours0:
 	//input
@@ -37,17 +29,17 @@ void GripPipeline::Process(cv::Mat &source0){
 	//Step Filter_Contours0:
 	//input
 	std::vector<std::vector<cv::Point> > filterContoursContours = findContoursOutput;
-	double filterContoursMinArea = 150.0;  // default Double
-	double filterContoursMinPerimeter = 0;  // default Double
-	double filterContoursMinWidth = 0;  // default Double
-	double filterContoursMaxWidth = 1000;  // default Double
-	double filterContoursMinHeight = 0;  // default Double
-	double filterContoursMaxHeight = 1000;  // default Double
+	double filterContoursMinArea = 250.0;  // default Double
+	double filterContoursMinPerimeter = 0.0;  // default Double
+	double filterContoursMinWidth = 0.0;  // default Double
+	double filterContoursMaxWidth = 1000.0;  // default Double
+	double filterContoursMinHeight = 0.0;  // default Double
+	double filterContoursMaxHeight = 1000.0;  // default Double
 	double filterContoursSolidity[] = {0, 100};
-	double filterContoursMaxVertices = 1000000;  // default Double
-	double filterContoursMinVertices = 0;  // default Double
-	double filterContoursMinRatio = 0;  // default Double
-	double filterContoursMaxRatio = 1000;  // default Double
+	double filterContoursMaxVertices = 1000000.0;  // default Double
+	double filterContoursMinVertices = 0.0;  // default Double
+	double filterContoursMinRatio = 0.0;  // default Double
+	double filterContoursMaxRatio = 1000.0;  // default Double
 	filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, this->filterContoursOutput);
 }
 
@@ -55,18 +47,9 @@ void GripPipeline::Process(cv::Mat &source0){
  * This method is a generated setter for source0.
  * @param source the Mat to set
  */
-/**void GripPipeline::setsource0(cv::Mat &source0){
+/**void GripPipeline::setSource0(cv::Mat &source0){
 	source0.copyTo(this->source0);
-}
-**/
-
-/**
- * This method is a generated getter for the output of a Blur.
- * @return Mat output from Blur.
- */
-cv::Mat* GripPipeline::getblurOutput(){
-	return &(this->blurOutput);
-}
+}*/
 /**
  * This method is a generated getter for the output of a HSL_Threshold.
  * @return Mat output from HSL_Threshold.
@@ -88,35 +71,6 @@ std::vector<std::vector<cv::Point> >* GripPipeline::getfindContoursOutput(){
 std::vector<std::vector<cv::Point> >* GripPipeline::getfilterContoursOutput(){
 	return &(this->filterContoursOutput);
 }
-	/**
-	 * Softens an image using one of several filters.
-	 *
-	 * @param input The image on which to perform the blur.
-	 * @param type The blurType to perform.
-	 * @param doubleRadius The radius for the blur.
-	 * @param output The image in which to store the output.
-	 */
-	void GripPipeline::blur(cv::Mat &input, BlurType &type, double doubleRadius, cv::Mat &output) {
-		int radius = (int)(doubleRadius + 0.5);
-		int kernelSize;
-		switch(type) {
-			case BOX:
-				kernelSize = 2 * radius + 1;
-				cv::blur(input,output,cv::Size(kernelSize, kernelSize));
-				break;
-			case GAUSSIAN:
-				kernelSize = 6 * radius + 1;
-				cv::GaussianBlur(input, output, cv::Size(kernelSize, kernelSize), radius);
-				break;
-			case MEDIAN:
-				kernelSize = 2 * radius + 1;
-				cv::medianBlur(input, output, kernelSize);
-				break;
-			case BILATERAL:
-				cv::bilateralFilter(input, output, -1, radius, radius);
-				break;
-        }
-	}
 	/**
 	 * Segment an image based on hue, saturation, and luminance ranges.
 	 *
