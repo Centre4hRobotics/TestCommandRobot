@@ -17,20 +17,22 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/types.hpp>
 
+static const double DEGREES_PER_PIXEL = 0.058; // math says .0795
+
 void VisionThread::Execute() {
 
 	// Get the USB camera from CameraServer
 	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
 
 	// Start driver assist camera
-	cs::UsbCamera driverCamera = CameraServer::GetInstance()->StartAutomaticCapture(1);
+	//cs::UsbCamera driverCamera = CameraServer::GetInstance()->StartAutomaticCapture(1);
 
 	// Set the resolution
+	camera.SetExposureManual(25);
 	camera.SetResolution(640, 480);
 	camera.SetBrightness(51.0);
 	camera.SetWhiteBalanceManual(4500);
 	camera.SetFPS(20);
-//	camera.SetExposureManual(0);
 
 	grip::GripPipeline pipeline;
 	// Get a CvSink. This will capture Mats from the Camera
@@ -56,6 +58,8 @@ void VisionThread::Execute() {
 		// run the GRIP pipeline
 		pipeline.Process(mat);
 
+		line(mat, cv::Point(320,0), cv::Point(320,480), cv::Scalar(0, 255, 0));
+
 		std::vector<std::vector<cv::Point> > contours = *pipeline.getfilterContoursOutput();
 		for(unsigned i = 0; i<contours.size(); ++i)
 			drawContours(mat, contours, i, cv::Scalar(255, 0, 0), 5);
@@ -76,6 +80,9 @@ void VisionThread::Execute() {
 			cv::Moments m1 = moments(contours[1], false);
 
 			xCenter = ((m0.m10/m0.m00)+(m1.m10/m1.m00))*0.5;
+			double yCenter = ((m0.m01/m0.m00)+(m1.m01/m1.m00))*0.5;
+
+			circle(mat, cv::Point(xCenter, yCenter), 5, cv::Scalar(0, 0, 255), 5);
 		}
 		else if (contours.size() > 2)
 		{
@@ -119,8 +126,10 @@ void VisionThread::Execute() {
 		outputStream.PutFrame(mat);
 	//	outputStream.PutFrame(*(pipeline.gethslThresholdOutput()));
 		// push x value to network table
+
+		double angleOffset = (xCenter-320)*DEGREES_PER_PIXEL;
 		std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 		table->PutBoolean("FoundContour", foundContour);
-		table->PutNumber("XCenter", xCenter);
+		table->PutNumber("XCenter", angleOffset);
 	}
 }

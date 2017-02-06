@@ -1,6 +1,10 @@
 #include "DriveStraightToUltrasonicDistance.h"
 #include "Robot.h"
 
+static const double LINEAR_MAX_SPEED = 1.0;
+static const double LINEAR_MIN_SPEED = 0.6;
+static const double SLOW_DISTANCE = 36;
+
 DriveStraightToUltrasonicDistance::DriveStraightToUltrasonicDistance(double ultrasonicDistance) {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
@@ -31,8 +35,18 @@ void DriveStraightToUltrasonicDistance::Execute() {
 		}
 		else
 		{
-			speed = 0.3*(distance - _ultrasonicDistance)/_ultrasonicDistance;
+			//speed = 0.3*(distance - _ultrasonicDistance)/_ultrasonicDistance;
+			if (distance > SLOW_DISTANCE + _ultrasonicDistance)
+			{
+				speed = LINEAR_MAX_SPEED;
+			}
+			else
+			{
+				speed = ((LINEAR_MAX_SPEED-LINEAR_MIN_SPEED)*((distance-_ultrasonicDistance)/(SLOW_DISTANCE))) + LINEAR_MIN_SPEED;
+			}
 		}
+	} else {
+		speed = LINEAR_MAX_SPEED;
 	}
 
 	_driveStraightController.SetSpeed(speed);

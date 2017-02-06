@@ -1,9 +1,9 @@
-#include "TurnAndSeek.h"
+#include "IncrementalSeekAndDrive.h"
 
-#include "SeekLeftRight.h"
 #include "TurnToTarget.h"
+#include "DriveStraightToUltrasonicDistance.h"
 
-TurnAndSeek::TurnAndSeek() {
+IncrementalSeekAndDrive::IncrementalSeekAndDrive() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -20,6 +20,11 @@ TurnAndSeek::TurnAndSeek() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
+
 	AddSequential(new TurnToTarget());
-	//AddSequential(new SeekLeftRight());
+	AddSequential(new DriveStraightToUltrasonicDistance(36));
+	AddSequential(new TurnToTarget());
+	AddSequential(new DriveStraightToUltrasonicDistance(22));
+	AddSequential(new TurnToTarget());
+	AddSequential(new DriveStraightToUltrasonicDistance(8));
 }

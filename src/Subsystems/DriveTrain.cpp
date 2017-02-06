@@ -35,8 +35,8 @@ void DriveTrain::Spin(double speed)
 {
 	// don't allow to spin faster than some limit
 	NetworkTable::GetTable("datatable")->PutNumber("SpeedIn", speed);
-	static const double MAX_SPIN_RATE = 0.8;
-	static const double MIN_SPIN_RATE = 0.55;
+	static const double MAX_SPIN_RATE = 0.75;
+	static const double MIN_SPIN_RATE = 0.45;
 	static const double STOP_SPIN_RATE = 0.01;
 	if (speed > STOP_SPIN_RATE)
 	{

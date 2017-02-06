@@ -2,7 +2,7 @@
 #include "../Robot.h"
 
 static const double SPIN_MULTIPLIER = .0125;
-static const double DEGREES_PER_PIXEL = 0.159; // math says .159
+
 
 TurnToTarget::TurnToTarget() {
 	// Use Requires() here to declare subsystem dependencies
@@ -22,8 +22,7 @@ void TurnToTarget::Initialize() {
 	bool foundContour = table->GetBoolean("FoundContour", false);
 	if (foundContour)
 	{
-		double xCenter = table->GetNumber("XCenter", 0.0);
-		double angleOffset = (xCenter-160)*DEGREES_PER_PIXEL;
+		double angleOffset = table->GetNumber("XCenter", 0.0);
 
 		_turnController.setTargetAngle(angleOffset);
 
