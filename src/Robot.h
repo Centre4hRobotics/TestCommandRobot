@@ -10,6 +10,7 @@
 #include "OperatorInterface.h"
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Sensor.h"
+#include "Subsystems/Pneumatics.h"
 
 #include "Commands/Autonomous.h"
 
@@ -33,6 +34,7 @@ public:
 
 	DriveTrain &getDriveTrain() {return *_driveTrain;}
 	Sensor &getSensor() {return *_sensor;}
+	Pneumatics &getPneumatics() {return *_pneumatics;}
 
 private:
 	static Robot *_theRobot;
@@ -41,6 +43,7 @@ private:
 	DriveTrain *_driveTrain;
 	Autonomous *_auto;
 	Sensor *_sensor;
+	Pneumatics *_pneumatics;
 
 };
 

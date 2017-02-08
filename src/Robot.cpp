@@ -22,6 +22,7 @@ Robot::Robot()
 	, _driveTrain(new DriveTrain())
 	, _auto(0)
 	, _sensor(new Sensor())
+	, _pneumatics(new Pneumatics())
 {
 	// update singleton pointer
 	_theRobot = this;
