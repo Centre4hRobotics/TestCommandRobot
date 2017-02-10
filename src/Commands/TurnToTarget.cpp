@@ -1,7 +1,8 @@
 #include "TurnToTarget.h"
 #include "../Robot.h"
 
-static const double SPIN_MULTIPLIER = .0125;
+static const double SPIN_MULTIPLIER = -0.0125;
+static const double STOP_ANGLE = 2;
 
 
 TurnToTarget::TurnToTarget() {
@@ -10,35 +11,42 @@ TurnToTarget::TurnToTarget() {
 	Requires(&Robot::getInstance().getDriveTrain());
 	Requires(&Robot::getInstance().getSensor());
 
-	SetTimeout(10);
-
 	_done = false;
 }
 
 // Called just before this Command runs the first time
 void TurnToTarget::Initialize() {
+
+	_done = false;
+
+	_timeOnTarget = 0;
+}
+
+void TurnToTarget::Execute()
+{
 	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 
 	bool foundContour = table->GetBoolean("FoundContour", false);
 	if (foundContour)
 	{
 		double angleOffset = table->GetNumber("XCenter", 0.0);
-
-		_turnController.setTargetAngle(angleOffset);
-
-		NetworkTable::GetTable("datatable")->PutNumber("angleOffset", angleOffset);
-
-		_done = false;
+		double spin = 0.0;
+		if (fabs(angleOffset)<STOP_ANGLE){
+			++_timeOnTarget;
+			if (_timeOnTarget >= 5)
+				_done = true;
+		}
+		else
+		{
+			_timeOnTarget = 0;
+			spin = angleOffset*SPIN_MULTIPLIER;
+		}
+		Robot::getInstance().getDriveTrain().Spin(spin);
 	}
 	else
 	{
 		_done = true;
 	}
-}
-
-void TurnToTarget::Execute()
-{
-	_done = _turnController.execute();
 }
 
 // Make this return true when this Command no longer needs to run execute()

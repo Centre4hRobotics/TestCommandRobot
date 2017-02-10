@@ -17,7 +17,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/types.hpp>
 
-static const double DEGREES_PER_PIXEL = 0.058; // math says .0795
+static const double DEGREES_PER_PIXEL = 0.0795; // math says .0795
 
 void VisionThread::Execute() {
 

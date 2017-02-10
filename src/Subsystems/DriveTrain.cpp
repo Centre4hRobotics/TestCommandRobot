@@ -4,6 +4,7 @@
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain") {
 	_robotDrive = new RobotDrive(0, 1);
+	_robotDrive->SetSafetyEnabled(false);
 	//_robotDrive->SetSensitivity(0.25);
 }
 void DriveTrain::InitDefaultCommand() {
@@ -20,7 +21,7 @@ void DriveTrain::Drive(Joystick *stick) {
 }
 
 void DriveTrain::Drive(double speed, double curve) {
-	_robotDrive->ArcadeDrive(speed, curve);
+	_robotDrive->ArcadeDrive(speed, curve, false);
 }
 
 void DriveTrain::DriveForward() {
@@ -35,8 +36,8 @@ void DriveTrain::Spin(double speed)
 {
 	// don't allow to spin faster than some limit
 	NetworkTable::GetTable("datatable")->PutNumber("SpeedIn", speed);
-	static const double MAX_SPIN_RATE = 0.75;
-	static const double MIN_SPIN_RATE = 0.45;
+	static const double MAX_SPIN_RATE = 0.5;
+	static const double MIN_SPIN_RATE = 0.175;
 	static const double STOP_SPIN_RATE = 0.01;
 	if (speed > STOP_SPIN_RATE)
 	{
@@ -51,6 +52,6 @@ void DriveTrain::Spin(double speed)
 		speed = 0;
 	}
 
-	_robotDrive->ArcadeDrive(0.0, speed);
+	_robotDrive->ArcadeDrive(0.0, speed, false);
 	NetworkTable::GetTable("datatable")->PutNumber("SpeedOut", speed);
 }

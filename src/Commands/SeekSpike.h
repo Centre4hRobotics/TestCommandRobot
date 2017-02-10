@@ -1,11 +1,11 @@
-#ifndef TurnToTarget_H
-#define TurnToTarget_H
+#ifndef SeekSpike_H
+#define SeekSpike_H
 
 #include <WPILib.h>
 
-class TurnToTarget : public Command {
+class SeekSpike : public Command {
 public:
-	TurnToTarget();
+	SeekSpike();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -13,8 +13,8 @@ public:
 	void Interrupted();
 
 private:
-	int _timeOnTarget;
+	double GetSpeed(double);
 	bool _done;
 };
 
-#endif  // TurnToTarget_H
+#endif  // SeekSpike_H

@@ -1,6 +1,6 @@
 #include "TurnAndSeek.h"
 
-#include "SeekLeftRight.h"
+#include "SeekSpike.h"
 #include "TurnToTarget.h"
 
 TurnAndSeek::TurnAndSeek() {
@@ -21,5 +21,5 @@ TurnAndSeek::TurnAndSeek() {
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
 	AddSequential(new TurnToTarget());
-	//AddSequential(new SeekLeftRight());
+	AddSequential(new SeekSpike());
 }
