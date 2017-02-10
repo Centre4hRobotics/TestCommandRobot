@@ -23,6 +23,7 @@ Robot::Robot()
 	, _auto(0)
 	, _sensor(new Sensor())
 	, _pneumatics(new Pneumatics())
+	, _climber(new Climber())
 {
 	// update singleton pointer
 	_theRobot = this;

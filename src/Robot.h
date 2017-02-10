@@ -11,6 +11,7 @@
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Sensor.h"
 #include "Subsystems/Pneumatics.h"
+#include "Subsystems/Climber.h"
 
 #include "Commands/Autonomous.h"
 
@@ -35,6 +36,7 @@ public:
 	DriveTrain &getDriveTrain() {return *_driveTrain;}
 	Sensor &getSensor() {return *_sensor;}
 	Pneumatics &getPneumatics() {return *_pneumatics;}
+	Climber &getClimber() { return *_climber; }
 
 private:
 	static Robot *_theRobot;
@@ -44,6 +46,7 @@ private:
 	Autonomous *_auto;
 	Sensor *_sensor;
 	Pneumatics *_pneumatics;
+	Climber *_climber;
 
 };
 

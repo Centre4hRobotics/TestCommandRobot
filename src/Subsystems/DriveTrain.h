@@ -11,16 +11,17 @@ private:
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
 	RobotDrive *_robotDrive;
+	bool _reverseControls;
 
 public:
 	DriveTrain();
 	void InitDefaultCommand();
-	void Drive(Joystick *);
+	void Drive(XboxController *);
 	void Drive(double, double);
 	void DriveForward();
 	void Stop();
-
 	void Spin(double speed);
+	void SetReverseControls(bool);
 };
 
 #endif  // DriveTrain_H

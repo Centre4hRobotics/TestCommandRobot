@@ -6,6 +6,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain") {
 	_robotDrive = new RobotDrive(0, 1);
 	_robotDrive->SetSafetyEnabled(false);
 	//_robotDrive->SetSensitivity(0.25);
+	_reverseControls = false;
 }
 void DriveTrain::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
@@ -16,8 +17,26 @@ void DriveTrain::InitDefaultCommand() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-void DriveTrain::Drive(Joystick *stick) {
-	_robotDrive->ArcadeDrive(-stick->GetY(), -stick->GetX());
+void DriveTrain::Drive(XboxController *stick) {
+	double x = 0.0;
+	double y = 0.0;
+
+	double xSlow = stick->GetX(XboxController::kRightHand);
+	double ySlow = stick->GetY(XboxController::kRightHand);
+
+	if (fabs(xSlow) > 0.2 || fabs(ySlow) >0.2) {
+		x = -0.5*ySlow;
+		y = -0.5*xSlow;
+	} else {
+		//_robotDrive->ArcadeDrive(-stick->GetY(XboxController::kLeftHand), -stick->GetX(XboxController::kLeftHand));
+		x = -stick->GetY(XboxController::kLeftHand);
+		y = -stick->GetX(XboxController::kLeftHand);
+	}
+	if (_reverseControls) {
+		x = -1.0*x;
+		y = -1.0*y;
+	}
+	_robotDrive->ArcadeDrive(x, y);
 }
 
 void DriveTrain::Drive(double speed, double curve) {
@@ -54,4 +73,8 @@ void DriveTrain::Spin(double speed)
 
 	_robotDrive->ArcadeDrive(0.0, speed, false);
 	NetworkTable::GetTable("datatable")->PutNumber("SpeedOut", speed);
+}
+
+void DriveTrain::SetReverseControls(bool reverse) {
+	_reverseControls = reverse;
 }

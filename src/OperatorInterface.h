@@ -9,10 +9,10 @@ class OperatorInterface
 public:
 	OperatorInterface();
 
-	Joystick &getJoystick() {return *_joystick;}
+	XboxController &getJoystick() {return *_joystick;}
 
 private:
-	Joystick *_joystick;
+	XboxController *_joystick;
 
 	JoystickButton *Button_A;
 	JoystickButton *Button_B;
