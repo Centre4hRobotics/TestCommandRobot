@@ -12,14 +12,14 @@ DriveStraightController::DriveStraightController()
 }
 
 void DriveStraightController::Initialize() {
-	_startDirection = Robot::getInstance().getSensor().getGyroAngle();
+	//_startDirection = Robot::getInstance().getSensor().getGyroAngle();
 	//Set 'Good Direction'
 }
 
 void DriveStraightController::Execute() {
-	double dirDiff = (_startDirection - Robot::getInstance().getSensor().getGyroAngle());
+	//double dirDiff = (_startDirection - Robot::getInstance().getSensor().getGyroAngle());
 
-	Robot::getInstance().getDriveTrain().Drive(_speed, dirDiff*-0.15);
+	//Robot::getInstance().getDriveTrain().Drive(_speed, dirDiff*-0.15);
 }
 
 void DriveStraightController::SetSpeed(double speed){

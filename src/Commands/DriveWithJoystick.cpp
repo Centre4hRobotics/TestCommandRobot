@@ -18,6 +18,8 @@ void DriveWithJoystick::Execute() {
 	XboxController &stick = Robot::getOI().getJoystick();
 
 	Robot::getInstance().getDriveTrain().Drive(&stick);
+
+	Robot::getInstance().getSensor().dumpData();
 }
 
 // Make this return true when this Command no longer needs to run execute()

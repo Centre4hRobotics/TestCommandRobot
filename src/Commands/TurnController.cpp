@@ -9,7 +9,8 @@
 #include <WPIlib.h>
 #include <robot.h>
 
-
+const double DEGREES_PER_INCH = 2.4;
+const double SPIN_MULTIPLIER = 0.03;
 
 TurnController::TurnController()
 {
@@ -18,24 +19,24 @@ TurnController::TurnController()
 
 void TurnController::setTargetAngle(double degreesToTurn)
 {
+
 	// set the angle based on the current gyro
-	Robot::getInstance().getSensor().resetGyro();
+	Robot::getInstance().getSensor().resetEncoders();
 	_targetAngle = degreesToTurn;
 
-	NetworkTable::GetTable("datatable")->PutNumber("TurnController::degreesToTurn", degreesToTurn);
 }
 
 
 bool TurnController::execute()
 {
-	double gyroAngle = Robot::getInstance().getSensor().getGyroAngle();
 
-	double error = gyroAngle - _targetAngle;
-	double spinSpeed = .03*error;
+	double diff = Robot::getInstance().getSensor().getEncoderDifference();
+	double angle = diff*DEGREES_PER_INCH;
 
-	NetworkTable::GetTable("datatable")->PutNumber("TurnController::gyroAngle", gyroAngle);
-	NetworkTable::GetTable("datatable")->PutNumber("TurnController::error", error);
-	NetworkTable::GetTable("datatable")->PutNumber("TurnController::spinSpeed", spinSpeed);
+	double error = angle - _targetAngle;
+	double spinSpeed = SPIN_MULTIPLIER*error;
+
+
 
 	Robot::getInstance().getDriveTrain().Spin(spinSpeed);
 

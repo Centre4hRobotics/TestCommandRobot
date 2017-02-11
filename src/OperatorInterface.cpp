@@ -13,16 +13,18 @@
 #include "Commands/TurnToTarget.h"
 #include "Commands/ClimbUp.h"
 
+#include "Commands/SeekLeftSpike.h"
+
 OperatorInterface::OperatorInterface()
 {
 	_joystick = new XboxController(0);
 
 	Button_A = new JoystickButton(_joystick, 1);
 	Button_A->WhileHeld(new ClimbUp());
-	/*
+
 	Button_Y = new JoystickButton(_joystick, 4);
-	Button_Y->WhenPressed(new TurnToTarget());
-	*/
+	Button_Y->WhenPressed(new SeekLeftSpike());
+
 
 
 	JoystickButton *RightBumper = new JoystickButton(_joystick, 6);

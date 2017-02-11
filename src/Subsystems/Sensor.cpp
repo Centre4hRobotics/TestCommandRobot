@@ -2,11 +2,16 @@
 #include "../RobotMap.h"
 
 Sensor::Sensor() : Subsystem("Sensor") {
-	_gyro = new ADXRS450_Gyro();
+	//_gyro = new ADXRS450_Gyro();
 	_leftUltrasonic = new Ultrasonic(0, 1);
 	_leftUltrasonic->SetAutomaticMode(true);
 	_rightUltrasonic = new Ultrasonic(2, 3);
 	_rightUltrasonic->SetAutomaticMode(true);
+	_leftEncoder = new Encoder(4, 5, false);
+	_leftEncoder->SetDistancePerPulse(0.03934426229*4.0);
+	_rightEncoder = new Encoder(6, 7, true);
+	_rightEncoder->SetDistancePerPulse(0.03934426229*4.0);
+
 }
 
 void Sensor::InitDefaultCommand() {
@@ -44,7 +49,7 @@ double Sensor::getAverageUltrasonic() {
 		return right; // only right valid
 	return -1.0; // neither valid
 }
-
+/*
 void Sensor::resetGyro()
 {
 	_gyro->Reset();
@@ -53,4 +58,34 @@ void Sensor::resetGyro()
 double Sensor::getGyroAngle()
 {
 	return _gyro->GetAngle();
+}
+*/
+
+void Sensor::resetEncoders()
+{
+	_leftEncoder->Reset();
+	_rightEncoder->Reset();
+}
+
+double Sensor::getEncoderDistance()
+{
+	return 0.5*(_leftEncoder->GetDistance() + _rightEncoder->GetDistance());
+}
+
+double Sensor::getEncoderDifference()
+{
+	return _leftEncoder->GetDistance() - _rightEncoder->GetDistance();
+}
+
+void Sensor::dumpData()
+{
+	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
+
+	table->PutNumber("UltrasonicRight", getRightUltrasonic());
+	table->PutNumber("UltrasonicLeft", getLeftUltrasonic());
+
+	table->PutNumber("EncoderLeft", _leftEncoder->GetDistance());
+	table->PutNumber("EncoderRight", _rightEncoder->GetDistance());
+	table->PutNumber("EncoderDistance", getEncoderDistance());
+	table->PutNumber("EncoderDifference", getEncoderDifference());
 }
