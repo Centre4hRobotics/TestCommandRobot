@@ -18,6 +18,8 @@ private:
 	JoystickButton *Button_B;
 	JoystickButton *Button_X;
 	JoystickButton *Button_Y;
+	JoystickButton *RightBumper;
+	JoystickButton *LeftBumper;
 
 };
 

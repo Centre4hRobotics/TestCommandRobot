@@ -21,26 +21,28 @@ static const double DEGREES_PER_PIXEL = 0.0795; // math says .0795
 
 void VisionThread::Execute() {
 
-	// Get the USB camera from CameraServer
-	cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture(0);
+	// start vision camera manually, not through CameraServer since we never feed raw image to DS
+	cs::UsbCamera visionCamera("USBCamera0", 0);
+	// Set the resolution
+	visionCamera.SetExposureManual(25);
+	visionCamera.SetResolution(640, 480);
+	visionCamera.SetBrightness(51.0);
+	visionCamera.SetWhiteBalanceManual(4500);
+	visionCamera.SetFPS(20);
+
+	// create the camera sink
+	cs::CvSink cvSink("opencv_USBCamera0");
+	cvSink.SetSource(visionCamera);
 
 	// Start driver assist camera
-	//cs::UsbCamera driverCamera = CameraServer::GetInstance()->StartAutomaticCapture(1);
-
-	// Set the resolution
-	camera.SetExposureManual(25);
-	camera.SetResolution(640, 480);
-	camera.SetBrightness(51.0);
-	camera.SetWhiteBalanceManual(4500);
-	camera.SetFPS(20);
+	cs::UsbCamera driverCamera = CameraServer::GetInstance()->StartAutomaticCapture(1);
+	driverCamera.SetResolution(320,240);
+	driverCamera.SetFPS(10);
 
 	grip::GripPipeline pipeline;
-	// Get a CvSink. This will capture Mats from the Camera
-	cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
 
 	// Setup a CvSource. This will send images back to the Dashboard
-	cs::CvSource outputStream = CameraServer::GetInstance()->
-			PutVideo("Vision", 640, 480);
+	cs::CvSource outputStream = CameraServer::GetInstance()->PutVideo("Vision", 640, 480);
 
 	// Mats are very memory expensive. Lets reuse this Mat.
 	cv::Mat mat;
@@ -122,9 +124,9 @@ void VisionThread::Execute() {
 			foundContour = false;
 		}
 
-
+		// display annotated vision image
 		outputStream.PutFrame(mat);
-	//	outputStream.PutFrame(*(pipeline.gethslThresholdOutput()));
+
 		// push x value to network table
 
 		double angleOffset = (xCenter-320)*DEGREES_PER_PIXEL;
