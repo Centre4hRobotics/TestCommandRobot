@@ -30,6 +30,7 @@ Robot::Robot()
 	, _sensor(new Sensor())
 	, _pneumatics(new Pneumatics())
 	, _climber(new Climber())
+	, _lighting(new Lighting())
 {
 	// update singleton pointer
 	_theRobot = this;
@@ -123,7 +124,8 @@ void Robot::TeleopInit() {
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// this line or comment it out.
-	_auto->Cancel();
+	if (_auto)
+		_auto->Cancel();
 }
 
 void Robot::TeleopPeriodic() {

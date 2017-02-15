@@ -25,13 +25,14 @@ OperatorInterface::OperatorInterface()
 	//Button_A->WhileHeld(new ClimbUp());
 
 	// Button Y on base joystick
-	(new JoystickButton(_baseJoystick, 4))->WhenPressed(new SeekLeftSpike());
+	(new JoystickButton(_baseJoystick, 4))->WhenPressed(new TurnAndSeek());
 
 	// Right Bumper on base joystick
 	(new JoystickButton(_baseJoystick, 6))->WhileHeld(new Shift());
 
 	// Left Bumper on base joystick
 	(new JoystickButton(_baseJoystick, 5))->WhileHeld(new ClimbUp());
+
 
 	// Button B on base joystick
 	//(new JoystickButton(_baseJoystick, 2))->WhenPressed(new TurnAndSeek());
@@ -40,5 +41,5 @@ OperatorInterface::OperatorInterface()
 	(new JoystickButton(_functionJoystick, 3))->WhileHeld(new EnableSignals());
 
 	// Button Y on function Joystick
-	(new JoystickButton(_functionJoystick, 4))->WhileHeld(new TurnAndSeek());
+	(new JoystickButton(_functionJoystick, 4))->WhenPressed(new TurnAndSeek());
 }

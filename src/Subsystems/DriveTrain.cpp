@@ -33,7 +33,7 @@ void DriveTrain::Drive(XboxController *stick) {
 		steer = -stick->GetX(XboxController::kLeftHand);
 	}
 	if (_reverseControls) {
-		speed = -1.0*speed;
+//		speed = -1.0*speed;
 	}
 	_robotDrive->ArcadeDrive(speed, steer);
 }
