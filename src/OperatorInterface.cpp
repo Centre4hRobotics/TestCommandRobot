@@ -14,22 +14,31 @@
 
 #include "Commands/SeekLeftSpike.h"
 
+#include "Commands/EnableSignals.h"
+
 OperatorInterface::OperatorInterface()
 {
-	_joystick = new XboxController(0);
+	_baseJoystick = new XboxController(0);
+	_functionJoystick = new XboxController(1);
 
 	//Button_A = new JoystickButton(_joystick, 1);
 	//Button_A->WhileHeld(new ClimbUp());
 
-	Button_Y = new JoystickButton(_joystick, 4);
-	Button_Y->WhenPressed(new SeekLeftSpike());
+	// Button Y on base joystick
+	(new JoystickButton(_baseJoystick, 4))->WhenPressed(new SeekLeftSpike());
 
-	RightBumper = new JoystickButton(_joystick, 6);
-	RightBumper->WhileHeld(new Shift());
+	// Right Bumper on base joystick
+	(new JoystickButton(_baseJoystick, 6))->WhileHeld(new Shift());
 
-	LeftBumper = new JoystickButton(_joystick, 5);
-	LeftBumper->WhileHeld(new ClimbUp());
+	// Left Bumper on base joystick
+	(new JoystickButton(_baseJoystick, 5))->WhileHeld(new ClimbUp());
 
-	Button_B = new JoystickButton(_joystick, 2);
-	Button_B->WhenPressed(new TurnAndSeek());
+	// Button B on base joystick
+	//(new JoystickButton(_baseJoystick, 2))->WhenPressed(new TurnAndSeek());
+
+	// Button X on function joystick
+	(new JoystickButton(_functionJoystick, 3))->WhileHeld(new EnableSignals());
+
+	// Button Y on function Joystick
+	(new JoystickButton(_functionJoystick, 4))->WhileHeld(new TurnAndSeek());
 }

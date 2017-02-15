@@ -12,7 +12,7 @@ void ClimbUp::Initialize() {
 }
 
 void ClimbUp::Execute() {
-	XboxController *joystick = &Robot::getInstance().getOI().getJoystick();
+	XboxController *joystick = &Robot::getInstance().getOI().getBaseJoystick();
 	double speed = SPIN_SPEED;
 	if (joystick->GetBackButton() && joystick->GetStartButton())
 	{

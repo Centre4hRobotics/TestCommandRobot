@@ -14,8 +14,14 @@
 
 #include "VisionThread.h"
 
+#include "Commands/SeekLeftSpike.h"
+#include "Commands/TurnAndSeek.h"
+#include "Commands/SeekRightSpike.h"
+
 Robot *Robot::_theRobot = 0;
 OperatorInterface *Robot::_operatorInterface = 0;
+
+std::string autoList[] = {"Left", "Center", "Right"};
 
 Robot::Robot()
 	: frc::IterativeRobot()
@@ -43,7 +49,11 @@ void Robot::RobotInit() {
 	std::thread Thread(&VisionThread::Execute, *visionThread);
 	Thread.detach();
 
-	_auto = new Autonomous();
+	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("SmartDashboard");
+	table->PutStringArray("Auto List", autoList);
+
+	// turn on lights
+	this->getLighting().PowerLights(true);
 }
 
 /**
@@ -78,6 +88,28 @@ void Robot::AutonomousInit() {
 	else {
 		autonomousCommand.reset(new ExampleCommand());
 	} */
+
+	std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "Center");
+	std::cout << "Autonomous selected: " << autoSelected << std::endl;
+
+	if (autoSelected == "Left")
+	{
+		_auto = new SeekLeftSpike();
+	}
+	else if (autoSelected == "Center")
+	{
+		_auto = new TurnAndSeek();
+	}
+	else if (autoSelected == "Right")
+	{
+		_auto = new SeekRightSpike();
+	}
+	else
+	{
+		std::cout << "Unknown autonomous selected" << std::endl;
+		std::cout << "Autonomous defaulting to center" << std::endl;
+		_auto = new TurnAndSeek();
+	}
 
 	_auto->Start();
 }

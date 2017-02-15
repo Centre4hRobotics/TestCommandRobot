@@ -10,6 +10,7 @@ public:
 	void Execute();
 	bool IsFinished();
 	void End();
+	bool IsInterruptable();
 	void Interrupted();
 
 private:

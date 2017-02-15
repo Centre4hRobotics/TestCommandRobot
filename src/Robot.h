@@ -12,8 +12,7 @@
 #include "Subsystems/Sensor.h"
 #include "Subsystems/Pneumatics.h"
 #include "Subsystems/Climber.h"
-
-#include "Commands/Autonomous.h"
+#include "Subsystems/Lighting.h"
 
 #ifndef ROBOT_H_
 #define ROBOT_H_
@@ -37,16 +36,18 @@ public:
 	Sensor &getSensor() {return *_sensor;}
 	Pneumatics &getPneumatics() {return *_pneumatics;}
 	Climber &getClimber() { return *_climber; }
+	Lighting &getLighting() { return *_lighting; }
 
 private:
 	static Robot *_theRobot;
 	static OperatorInterface *_operatorInterface;
 
 	DriveTrain *_driveTrain;
-	Autonomous *_auto;
+	Command *_auto;
 	Sensor *_sensor;
 	Pneumatics *_pneumatics;
 	Climber *_climber;
+	Lighting *_lighting;
 
 };
 

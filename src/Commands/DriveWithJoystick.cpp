@@ -15,7 +15,7 @@ void DriveWithJoystick::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoystick::Execute() {
-	XboxController &stick = Robot::getOI().getJoystick();
+	XboxController &stick = Robot::getOI().getBaseJoystick();
 
 	Robot::getInstance().getDriveTrain().Drive(&stick);
 
