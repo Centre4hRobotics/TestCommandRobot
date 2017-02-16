@@ -10,18 +10,18 @@
 #include "OperatorInterface.h"
 #include "Robot.h"
 
-#include "Commands/DriveWithJoystick.h"
+#include "Commands/Drive/DriveWithJoystick.h"
 
 #include "VisionThread.h"
 
-#include "Commands/SeekLeftSpike.h"
-#include "Commands/TurnAndSeek.h"
-#include "Commands/SeekRightSpike.h"
+#include "Commands/Autonomous/SeekLeftSpike.h"
+#include "Commands/Autonomous/SeekCenterSpike.h"
+#include "Commands/Autonomous/SeekRightSpike.h"
 
 Robot *Robot::_theRobot = 0;
 OperatorInterface *Robot::_operatorInterface = 0;
 
-std::string autoList[] = {"Left", "Center", "Right"};
+std::string autoList[] = {"Left", "Center", "Right", "None"};
 
 Robot::Robot()
 	: frc::IterativeRobot()
@@ -90,7 +90,7 @@ void Robot::AutonomousInit() {
 		autonomousCommand.reset(new ExampleCommand());
 	} */
 
-	std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "Center");
+	std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "None");
 	std::cout << "Autonomous selected: " << autoSelected << std::endl;
 
 	if (autoSelected == "Left")
@@ -99,17 +99,23 @@ void Robot::AutonomousInit() {
 	}
 	else if (autoSelected == "Center")
 	{
-		_auto = new TurnAndSeek();
+		_auto = new SeekCenterSpike();
 	}
 	else if (autoSelected == "Right")
 	{
 		_auto = new SeekRightSpike();
 	}
+	else if (autoSelected == "None")
+	{
+		// not sure if this works
+		_auto = new CommandGroup();
+	}
 	else
 	{
 		std::cout << "Unknown autonomous selected" << std::endl;
-		std::cout << "Autonomous defaulting to center" << std::endl;
-		_auto = new TurnAndSeek();
+		std::cout << "Autonomous defaulting to None" << std::endl;
+		// not sure if this works
+		_auto = new CommandGroup();
 	}
 
 	_auto->Start();
