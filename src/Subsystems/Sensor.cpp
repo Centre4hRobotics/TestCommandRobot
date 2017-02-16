@@ -1,6 +1,8 @@
 #include "Sensor.h"
 #include "../RobotMap.h"
 
+const double DEGREES_PER_INCH = 2.4;
+
 Sensor::Sensor() : Subsystem("Sensor") {
 	//_gyro = new ADXRS450_Gyro();
 	_leftUltrasonic = new Ultrasonic(0, 1);
@@ -72,9 +74,14 @@ double Sensor::getEncoderDistance()
 	return 0.5*(_leftEncoder->GetDistance() + _rightEncoder->GetDistance());
 }
 
-double Sensor::getEncoderDifference()
+double Sensor::getEncoderDifferenceDistance()
 {
 	return _leftEncoder->GetDistance() - _rightEncoder->GetDistance();
+}
+
+double Sensor::getEncoderDifferenceAngle()
+{
+	return getEncoderDifferenceDistance()*DEGREES_PER_INCH;
 }
 
 void Sensor::dumpData()
@@ -87,5 +94,6 @@ void Sensor::dumpData()
 	table->PutNumber("EncoderLeft", _leftEncoder->GetDistance());
 	table->PutNumber("EncoderRight", _rightEncoder->GetDistance());
 	table->PutNumber("EncoderDistance", getEncoderDistance());
-	table->PutNumber("EncoderDifference", getEncoderDifference());
+	table->PutNumber("EncoderDifferenceAngle", getEncoderDifferenceAngle());
+	table->PutNumber("EncoderDifferenceDistance", getEncoderDifferenceDistance());
 }

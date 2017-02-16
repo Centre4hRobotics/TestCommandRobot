@@ -24,7 +24,8 @@ public:
 	//double getGyroAngle();
 	void resetEncoders();
 	double getEncoderDistance();
-	double getEncoderDifference();
+	double getEncoderDifferenceAngle();
+	double getEncoderDifferenceDistance();
 
 	void dumpData();
 };

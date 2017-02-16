@@ -16,6 +16,8 @@
 
 #include "Commands/EnableSignals.h"
 
+#include "Commands/DriveDistance.h"
+
 OperatorInterface::OperatorInterface()
 {
 	_baseJoystick = new XboxController(0);
@@ -25,7 +27,7 @@ OperatorInterface::OperatorInterface()
 	//Button_A->WhileHeld(new ClimbUp());
 
 	// Button Y on base joystick
-	(new JoystickButton(_baseJoystick, 4))->WhenPressed(new TurnAndSeek());
+	//(new JoystickButton(_baseJoystick, 4))->WhenPressed(new TurnAndSeek());
 
 	// Right Bumper on base joystick
 	(new JoystickButton(_baseJoystick, 6))->WhileHeld(new Shift());
@@ -41,5 +43,5 @@ OperatorInterface::OperatorInterface()
 	(new JoystickButton(_functionJoystick, 3))->WhileHeld(new EnableSignals());
 
 	// Button Y on function Joystick
-	(new JoystickButton(_functionJoystick, 4))->WhenPressed(new TurnAndSeek());
+	(new JoystickButton(_functionJoystick, 8))->WhileHeld(new TurnAndSeek());
 }

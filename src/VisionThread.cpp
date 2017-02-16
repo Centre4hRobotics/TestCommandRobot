@@ -133,5 +133,6 @@ void VisionThread::Execute() {
 		std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 		table->PutBoolean("FoundContour", foundContour);
 		table->PutNumber("XCenter", angleOffset);
+		table->PutBoolean("NewFrame", true);
 	}
 }

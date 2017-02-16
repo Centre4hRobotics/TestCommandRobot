@@ -16,6 +16,7 @@ public:
 private:
 	double GetSpeed(double);
 	bool _done;
+	double _turnAngle;
 };
 
 #endif  // SeekSpike_H

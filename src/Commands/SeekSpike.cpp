@@ -19,6 +19,7 @@ SeekSpike::SeekSpike() {
 // Called just before this Command runs the first time
 void SeekSpike::Initialize() {
 	_done = false;
+	_turnAngle = 0;
 }
 
 double SeekSpike::GetSpeed(double distance) {
@@ -77,13 +78,24 @@ void SeekSpike::Execute() {
 	{
 		if (speed > 0 && foundContour)
 		{
-			double xCenter = table->GetNumber("XCenter", 0.0);
-			double Steer = xCenter*ANGLE_MULTIPLIER;
+
+			bool newFrame = table->GetBoolean("NewFrame", false);
+			if (newFrame)
+			{
+				_turnAngle = table->GetNumber("XCenter", 0.0);
+				table->PutBoolean("NewFrame", false);
+				Robot::getInstance().getSensor().resetEncoders();
+			}
+			else
+			{
+				_turnAngle -= Robot::getInstance().getSensor().getEncoderDifferenceAngle();
+			}
+
+			//_turnAngle = table->GetNumber("XCenter", 0.0);
+			double Steer = _turnAngle*ANGLE_MULTIPLIER;
 
 			Steer = std::min(Steer, MAX_STEER);
 			Steer = std::max(Steer, -MAX_STEER);
-
-			table->PutNumber("Steer", Steer);
 
 			table->PutNumber("Steer",Steer);
 			Robot::getInstance().getDriveTrain().Drive(speed, Steer);

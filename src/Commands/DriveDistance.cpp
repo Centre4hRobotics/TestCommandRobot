@@ -2,7 +2,7 @@
 #include "Robot.h"
 
 const double SPEED_TO_DRIVE = 0.75;
-const double STEER_MULTIPLIER = -0.3;
+const double STEER_MULTIPLIER = 0.3;
 
 DriveDistance::DriveDistance(double inchesToDrive) {
 	// Use Requires() here to declare subsystem dependencies
@@ -32,7 +32,7 @@ void DriveDistance::Execute() {
 	else
 	{
 		speed = SPEED_TO_DRIVE;
-		double diff = Robot::getInstance().getSensor().getEncoderDifference();
+		double diff = Robot::getInstance().getSensor().getEncoderDifferenceDistance();
 		steer = STEER_MULTIPLIER * diff;
 	}
 	Robot::getInstance().getDriveTrain().Drive(speed, steer);

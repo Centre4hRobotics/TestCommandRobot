@@ -9,7 +9,6 @@
 #include <WPIlib.h>
 #include <robot.h>
 
-const double DEGREES_PER_INCH = 2.4;
 const double SPIN_MULTIPLIER = 0.03;
 
 TurnController::TurnController()
@@ -30,10 +29,9 @@ void TurnController::setTargetAngle(double degreesToTurn)
 bool TurnController::execute()
 {
 
-	double diff = Robot::getInstance().getSensor().getEncoderDifference();
-	double angle = diff*DEGREES_PER_INCH;
+	double diff = Robot::getInstance().getSensor().getEncoderDifferenceAngle();
 
-	double error = angle - _targetAngle;
+	double error = diff - _targetAngle;
 	double spinSpeed = SPIN_MULTIPLIER*error;
 
 

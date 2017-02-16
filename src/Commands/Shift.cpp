@@ -7,11 +7,11 @@ Shift::Shift() {
 }
 
 void Shift::Initialize() {
-	Robot::getInstance().getDriveTrain().SetReverseControls(true);
+	Robot::getInstance().getPneumatics().ShiftUp();
 }
 
 void Shift::Execute() {
-	Robot::getInstance().getPneumatics().ShiftUp();
+
 }
 
 bool Shift::IsFinished() {
