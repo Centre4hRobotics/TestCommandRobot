@@ -1,5 +1,5 @@
 #include "SeekSpike.h"
-#include "../Robot.h"
+#include "../../Robot.h"
 
 static const double LINEAR_MAX_SPEED = 0.35;
 static const double LINEAR_MIN_SPEED = 0.2;
@@ -14,6 +14,7 @@ SeekSpike::SeekSpike() {
 	// eg. Requires(Robot::chassis.get());
 	Requires(&Robot::getInstance().getDriveTrain());
 	_done = false;
+	_turnAngle = 0.0;
 }
 
 // Called just before this Command runs the first time

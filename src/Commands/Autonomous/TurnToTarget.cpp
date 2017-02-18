@@ -1,5 +1,5 @@
 #include "TurnToTarget.h"
-#include "../Robot.h"
+#include <Robot.h>
 
 static const double SPIN_MULTIPLIER = -0.0125;
 static const double STOP_ANGLE = 2;

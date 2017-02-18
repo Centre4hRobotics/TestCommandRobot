@@ -1,9 +1,10 @@
-#include "TurnAndSeek.h"
+#include "SeekLeftSpike.h"
 
+#include "DriveDistance.h"
+#include "TurnDegrees.h"
 #include "SeekSpike.h"
-#include "TurnToTarget.h"
 
-TurnAndSeek::TurnAndSeek() {
+SeekLeftSpike::SeekLeftSpike() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -20,6 +21,8 @@ TurnAndSeek::TurnAndSeek() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
+	AddSequential(new DriveDistance(70));
+	AddSequential(new TurnDegrees(60));
 	//AddSequential(new TurnToTarget());
 	AddSequential(new SeekSpike());
 }

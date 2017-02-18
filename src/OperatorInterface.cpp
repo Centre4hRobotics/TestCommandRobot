@@ -1,22 +1,17 @@
 #include <OperatorInterface.h>
 #include <Joystick.h>
 
-#include "Commands/TurnAndSeek.h"
-#include "Commands/TurnDegrees.h"
-#include "Commands/StopEverything.h"
-#include "Commands/DriveStraightToUltrasonicDistance.h"
-#include "Commands/DriveWithJoystick.h"
-#include "Commands/IncrementalSeekAndDrive.h"
-#include "Commands/Shift.h"
-#include "Commands/SeekSpike.h"
-#include "Commands/TurnToTarget.h"
-#include "Commands/ClimbUp.h"
+#include "Commands/Autonomous/SeekSpike.h"
+#include "Commands/Autonomous/TurnDegrees.h"
+#include "Commands/Drive/DriveWithJoystick.h"
+#include "Commands/Pneumatics/Shift.h"
+#include "Commands/Drive/ClimbUp.h"
 
-#include "Commands/SeekLeftSpike.h"
+#include "Commands/Autonomous/SeekLeftSpike.h"
 
-#include "Commands/EnableSignals.h"
+#include "Commands/Misc/EnableSignals.h"
 
-#include "Commands/DriveDistance.h"
+#include "Commands/Autonomous/DriveDistance.h"
 
 OperatorInterface::OperatorInterface()
 {
@@ -43,5 +38,5 @@ OperatorInterface::OperatorInterface()
 	(new JoystickButton(_functionJoystick, 3))->WhileHeld(new EnableSignals());
 
 	// Button Y on function Joystick
-	(new JoystickButton(_functionJoystick, 8))->WhileHeld(new TurnAndSeek());
+	(new JoystickButton(_functionJoystick, 8))->WhileHeld(new SeekSpike());
 }

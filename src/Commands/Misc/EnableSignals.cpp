@@ -1,5 +1,5 @@
 #include "EnableSignals.h"
-#include "../Robot.h"
+#include <Robot.h>
 
 EnableSignals::EnableSignals() {
 	// Use Requires() here to declare subsystem dependencies
