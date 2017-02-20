@@ -10,6 +10,7 @@ private:
 	// for methods that implement subsystem capabilities
 	DigitalOutput *_digitalOutput;
 	Relay *_spikeRelay;
+	Relay *_fanRelay;
 
 public:
 	Lighting();

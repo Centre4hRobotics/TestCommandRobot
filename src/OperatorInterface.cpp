@@ -37,6 +37,9 @@ OperatorInterface::OperatorInterface()
 	// Button X on function joystick
 	(new JoystickButton(_functionJoystick, 3))->WhileHeld(new EnableSignals());
 
-	// Button Y on function Joystick
+	// Button Start on function Joystick
 	(new JoystickButton(_functionJoystick, 8))->WhileHeld(new SeekSpike());
+
+	// Button Y on function Joystick
+	(new JoystickButton(_functionJoystick, 4))->WhenPressed(new TurnDegrees(180));
 }

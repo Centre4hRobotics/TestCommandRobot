@@ -21,7 +21,7 @@ SeekLeftSpike::SeekLeftSpike() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-	AddSequential(new DriveDistance(70));
+	AddSequential(new DriveDistance(65));
 	AddSequential(new TurnDegrees(60));
 	//AddSequential(new TurnToTarget());
 	AddSequential(new SeekSpike());

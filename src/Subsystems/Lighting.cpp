@@ -5,6 +5,7 @@ Lighting::Lighting() : Subsystem("Lighting")
 {
 	_digitalOutput = new DigitalOutput(8);
 	_spikeRelay = new Relay(0);
+	_fanRelay = new Relay(1);
 }
 
 void Lighting::InitDefaultCommand() {
@@ -19,10 +20,12 @@ void Lighting::PowerLights(bool on) {
 	if (on)
 	{
 		_spikeRelay->Set(Relay::Value::kForward);
+		_fanRelay->Set(Relay::Value::kForward);
 	}
 	else
 	{
 		_spikeRelay->Set(Relay::Value::kOff);
+		_fanRelay->Set(Relay::Value::kOff);
 	}
 }
 
