@@ -4,8 +4,9 @@
 Lighting::Lighting() : Subsystem("Lighting")
 {
 	_digitalOutput = new DigitalOutput(8);
-	_spikeRelay = new Relay(0);
-	_fanRelay = new Relay(1);
+	_ledRings = new Relay(0);
+	_arduinoPower = new Relay(2);
+	_ledRingsLocked = false;
 }
 
 void Lighting::InitDefaultCommand() {
@@ -19,16 +20,36 @@ void Lighting::InitDefaultCommand() {
 void Lighting::PowerLights(bool on) {
 	if (on)
 	{
-		_spikeRelay->Set(Relay::Value::kForward);
-		_fanRelay->Set(Relay::Value::kForward);
+		_arduinoPower->Set(Relay::Value::kForward);
 	}
 	else
 	{
-		_spikeRelay->Set(Relay::Value::kOff);
-		_fanRelay->Set(Relay::Value::kOff);
+		_arduinoPower->Set(Relay::Value::kOff);
 	}
 }
 
 void Lighting::EnableSignal(bool on) {
 	_digitalOutput->Set(on);
+}
+
+void Lighting::EnableLedRings(bool on) {
+	if (_ledRingsLocked) {
+		return;
+	}
+
+	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
+	if (on)
+	{
+		_ledRings->Set(Relay::Value::kForward);
+		table->PutBoolean("DoVision", true);
+	}
+	else
+	{
+		_ledRings->Set(Relay::Value::kOff);
+		table->PutBoolean("DoVision", false);
+	}
+}
+
+void Lighting::LockLedRings(bool on) {
+	_ledRingsLocked = on;
 }

@@ -1,7 +1,7 @@
 #include "Sensor.h"
 #include "../RobotMap.h"
 
-const double DEGREES_PER_INCH = 2.4;
+const double DEGREES_PER_INCH = 2.0;
 
 Sensor::Sensor() : Subsystem("Sensor") {
 	//_gyro = new ADXRS450_Gyro();
@@ -9,10 +9,10 @@ Sensor::Sensor() : Subsystem("Sensor") {
 	_leftUltrasonic->SetAutomaticMode(true);
 	_rightUltrasonic = new Ultrasonic(2, 3);
 	_rightUltrasonic->SetAutomaticMode(true);
-	_leftEncoder = new Encoder(4, 5, false);
-	_leftEncoder->SetDistancePerPulse(0.03934426229*4.0);
-	_rightEncoder = new Encoder(6, 7, true);
-	_rightEncoder->SetDistancePerPulse(0.03934426229*4.0);
+	_leftEncoder = new Encoder(6, 7, true);
+	_leftEncoder->SetDistancePerPulse(0.0645);
+	_rightEncoder = new Encoder(4, 5, false);
+	_rightEncoder->SetDistancePerPulse(0.0645);
 
 }
 

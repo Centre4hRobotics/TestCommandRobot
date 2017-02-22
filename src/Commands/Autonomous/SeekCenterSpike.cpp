@@ -1,6 +1,9 @@
 #include "SeekCenterSpike.h"
 #include "SeekSpike.h"
 
+#include "EnableLedRings.h"
+#include "Pause.h"
+
 SeekCenterSpike::SeekCenterSpike() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
@@ -19,5 +22,7 @@ SeekCenterSpike::SeekCenterSpike() {
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
 	//AddSequential(new TurnToTarget());
+	//AddSequential(new EnableLedRings());
+	AddSequential(new Pause(1.0));
 	AddSequential(new SeekSpike());
 }

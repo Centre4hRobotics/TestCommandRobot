@@ -55,6 +55,7 @@ void Robot::RobotInit() {
 
 	// turn on lights
 	this->getLighting().PowerLights(true);
+	getLighting().EnableLedRings(true);
 }
 
 /**

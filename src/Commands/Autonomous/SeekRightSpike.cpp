@@ -4,6 +4,8 @@
 #include "TurnDegrees.h"
 #include "SeekSpike.h"
 
+#include "EnableLedRings.h"
+
 SeekRightSpike::SeekRightSpike() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
@@ -21,8 +23,8 @@ SeekRightSpike::SeekRightSpike() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-	AddSequential(new DriveDistance(65));
-	AddSequential(new TurnDegrees(-60));
+	AddSequential(new DriveDistance(62));
+	AddSequential(new TurnDegrees(-80));
 	//AddSequential(new TurnToTarget());
 	AddSequential(new SeekSpike());
 }

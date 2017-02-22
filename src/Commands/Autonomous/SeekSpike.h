@@ -17,6 +17,7 @@ private:
 	double GetSpeed(double);
 	bool _done;
 	double _turnAngle;
+	int _noContourCounter;
 };
 
 #endif  // SeekSpike_H

@@ -1,7 +1,7 @@
 #include "SeekSpike.h"
 #include "../../Robot.h"
 
-static const double LINEAR_MAX_SPEED = 0.35;
+static const double LINEAR_MAX_SPEED = 0.32;
 static const double LINEAR_MIN_SPEED = 0.2;
 static const double MAX_STEER = 0.5;
 static const double SLOW_DISTANCE = 36;
@@ -13,6 +13,7 @@ SeekSpike::SeekSpike() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&Robot::getInstance().getDriveTrain());
+	Requires(&Robot::getInstance().getLighting());
 	_done = false;
 	_turnAngle = 0.0;
 }
@@ -21,6 +22,12 @@ SeekSpike::SeekSpike() {
 void SeekSpike::Initialize() {
 	_done = false;
 	_turnAngle = 0;
+	std::cout << "Seek spike initialize" << std::endl;
+	//Robot::getInstance().getLighting().EnableLedRings(true);
+
+	_noContourCounter = 0;
+
+	//Robot::getInstance().getLighting().LockLedRings(true);
 }
 
 double SeekSpike::GetSpeed(double distance) {
@@ -57,16 +64,29 @@ double SeekSpike::GetSpeed(double distance) {
 
 // Called repeatedly when this Command is scheduled to run
 void SeekSpike::Execute() {
+	std::cout << "SeekSpike::Execute()" << std::endl;
+	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
+
 	double distance = Robot::getInstance().getSensor().getAverageUltrasonic();
 	double speed = GetSpeed(distance);
-
-
-	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
 
 	bool foundContour = table->GetBoolean("FoundContour", false);
 	table->PutNumber("Speed", speed);
 
-	if (foundContour == false || speed <= 0.0) {
+	if (foundContour == false) {
+		_noContourCounter++;
+		if (_noContourCounter >= 50) {
+			_done = true;
+			return;
+		}
+	}
+	else
+	{
+		_noContourCounter = 0;
+	}
+
+	if (speed <= 0.0)
+	{
 		_done = true;
 		return;
 	}
@@ -118,7 +138,8 @@ bool SeekSpike::IsFinished() {
 
 // Called once after isFinished returns true
 void SeekSpike::End() {
-
+	//Robot::getInstance().getLighting().LockLedRings(false);
+	//Robot::getInstance().getLighting().EnableLedRings(false);
 }
 
 bool SeekSpike::IsInterruptable()

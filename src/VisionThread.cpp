@@ -47,6 +47,8 @@ void VisionThread::Execute() {
 	// Mats are very memory expensive. Lets reuse this Mat.
 	cv::Mat mat;
 
+	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("datatable");
+
 	while (true) {
 		// Tell the CvSink to grab a frame from the camera and put it
 		// in the source mat.  If there is an error notify the output.

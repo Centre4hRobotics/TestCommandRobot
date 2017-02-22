@@ -13,6 +13,8 @@
 
 #include "Commands/Autonomous/DriveDistance.h"
 
+#include "Commands/Autonomous/EnableLedRings.h"
+
 OperatorInterface::OperatorInterface()
 {
 	_baseJoystick = new XboxController(0);
@@ -25,7 +27,7 @@ OperatorInterface::OperatorInterface()
 	//(new JoystickButton(_baseJoystick, 4))->WhenPressed(new TurnAndSeek());
 
 	// Right Bumper on base joystick
-	(new JoystickButton(_baseJoystick, 6))->WhileHeld(new Shift());
+	//(new JoystickButton(_baseJoystick, 6))->WhileHeld(new Shift());
 
 	// Left Bumper on base joystick
 	(new JoystickButton(_baseJoystick, 5))->WhileHeld(new ClimbUp());
@@ -42,4 +44,7 @@ OperatorInterface::OperatorInterface()
 
 	// Button Y on function Joystick
 	(new JoystickButton(_functionJoystick, 4))->WhenPressed(new TurnDegrees(180));
+
+	// Button A on function Joystick
+	//(new JoystickButton(_functionJoystick, 1))->WhileHeld(new EnableLedRings());
 }

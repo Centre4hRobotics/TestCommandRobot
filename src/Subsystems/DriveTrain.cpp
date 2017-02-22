@@ -1,6 +1,7 @@
 #include "DriveTrain.h"
 #include "../Commands/Drive/DriveWithJoystick.h"
 
+const double NEW_GEARBOX_STEER_CORRECTION = 0.13;
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain") {
 	_robotDrive = new RobotDrive(0, 1);
@@ -26,16 +27,16 @@ void DriveTrain::Drive(XboxController *stick) {
 
 	if (fabs(xSlow) > 0.2 || fabs(ySlow) >0.2) {
 		speed = -0.6*ySlow;
-		steer = -0.6*xSlow;
+		steer = -0.7*xSlow;
 	} else {
 		//_robotDrive->ArcadeDrive(-stick->GetY(XboxController::kLeftHand), -stick->GetX(XboxController::kLeftHand));
 		speed = -stick->GetY(XboxController::kLeftHand);
-		steer = -stick->GetX(XboxController::kLeftHand);
+		steer = -stick->GetX(XboxController::kLeftHand) * 0.8;
 	}
 	if (_reverseControls) {
 		speed = -1.0*speed;
 	}
-	_robotDrive->ArcadeDrive(speed, steer);
+	_robotDrive->ArcadeDrive(speed, steer-(NEW_GEARBOX_STEER_CORRECTION*fabs(speed)));
 }
 
 void DriveTrain::Drive(double speed, double curve) {
@@ -54,9 +55,9 @@ void DriveTrain::Spin(double speed)
 {
 	// don't allow to spin faster than some limit
 	NetworkTable::GetTable("datatable")->PutNumber("SpeedIn", speed);
-	static const double MAX_SPIN_RATE = 0.5;
-	static const double MIN_SPIN_RATE = 0.225;
-	static const double STOP_SPIN_RATE = 0.01;
+	static const double MAX_SPIN_RATE = 0.6;
+	static const double MIN_SPIN_RATE = 0.3;
+	static const double STOP_SPIN_RATE = 0.05;
 	if (speed > STOP_SPIN_RATE)
 	{
 		speed = ((MAX_SPIN_RATE-MIN_SPIN_RATE)*((speed-STOP_SPIN_RATE)/(1-STOP_SPIN_RATE))) + MIN_SPIN_RATE;
