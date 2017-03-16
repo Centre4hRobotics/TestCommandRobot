@@ -91,26 +91,35 @@ void VisionThread::Execute() {
 		else if (contours.size() > 2)
 		{
 			foundContour = false;
-/*			double yMin0 = 0;
-			double yMin1 = 0;
+			double aMax0 = 0;
+			double aMax1 = 0;
 
-			unsigned i0, i1;
+			unsigned i0=0, i1=0;
 			for(unsigned i=0; i<contours.size(); ++i)
 			{
 				cv::Moments m = moments(contours[i], false);
+				double area = m.m00;
 
-				if (m.m00 > 25.0) {
-					double y = m.m01/m.m00;
+				if (area > aMax0) {
+					if (area > aMax1)
+					{
+						aMax1 = aMax0;
+						aMax0 = area;
+						i1 = i0;
+						i0 = i;
 
-					if (y > yMin0) {
-						yMin0 = y;
+					}
+					else
+					{
+						aMax0 = area;
 						i0 = i;
 					}
-					else if(y > yMin1) {
-						yMin1 = y;
-						i1 = i;
-					}
 				}
+				else if(area > aMax1) {
+					aMax1 = area;
+					i1 = i;
+				}
+				//std::cout << "Area: " << area << " aMax0: " << aMax0 << " aMax1: " << aMax1 << " i0: " << i0 << " i1: " << i1 << std::endl;
 			}
 
 			cv::Moments m0 = moments(contours[i0], false);
@@ -118,7 +127,10 @@ void VisionThread::Execute() {
 
 
 			xCenter = ((m0.m10/m0.m00)+(m1.m10/m1.m00))*0.5;
-			foundContour = true;*/
+			double yCenter = ((m0.m01/m0.m00)+(m1.m01/m1.m00))*0.5;
+			circle(mat, cv::Point(xCenter, yCenter), 5, cv::Scalar(0, 0, 255), 5);
+
+			foundContour = true;
 
 		}
 		else

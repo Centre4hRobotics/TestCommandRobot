@@ -3,6 +3,7 @@
 #include "DriveDistance.h"
 #include "TurnDegrees.h"
 #include "SeekSpike.h"
+#include "TurnToSpike.h"
 
 #include "EnableLedRings.h"
 
@@ -25,6 +26,6 @@ SeekRightSpike::SeekRightSpike() {
 	// arm.
 	AddSequential(new DriveDistance(62));
 	AddSequential(new TurnDegrees(-80));
-	//AddSequential(new TurnToTarget());
+	AddSequential(new TurnToSpike(TurnSide::Right));
 	AddSequential(new SeekSpike());
 }

@@ -5,7 +5,7 @@ static const double LINEAR_MAX_SPEED = 0.32;
 static const double LINEAR_MIN_SPEED = 0.2;
 static const double MAX_STEER = 0.5;
 static const double SLOW_DISTANCE = 36;
-static const double STOP_DISTANCE = 6.5;
+static const double STOP_DISTANCE = 6.5 + 3.5;
 static const double ANGLE_MULTIPLIER = -0.03;
 static const double MINIMUM_VISION_DISTANCE = 13;
 
