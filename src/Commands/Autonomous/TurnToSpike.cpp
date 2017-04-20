@@ -17,10 +17,12 @@ TurnToSpike::TurnToSpike(TurnSide side) {
 void TurnToSpike::Initialize() {
 	_turningSet = false;
 	_done = false;
+	std::cout << "TurnToSpike" << std::endl;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void TurnToSpike::Execute() {
+	std::cout << "TurnToSpike::Execute()" << std::endl;
 	if (!_turningSet) {
 		// set turn degrees
 		int direction = static_cast<int>(_side);

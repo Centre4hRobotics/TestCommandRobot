@@ -1,40 +1,34 @@
-#include "TurnDegrees.h"
+#include "DriveTime.h"
 #include "Robot.h"
 
-TurnDegrees::TurnDegrees(double degreesToTurn) {
+DriveTime::DriveTime(double seconds, double speed) {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&Robot::getInstance().getDriveTrain());
-	Requires(&Robot::getInstance().getSensor());
-
-	_degreesToTurn = degreesToTurn;
-	_done = false;
+	SetTimeout(seconds);
+	_speed = speed;
 }
 
 // Called just before this Command runs the first time
-void TurnDegrees::Initialize() {
-	_turnController.setTargetAngle(_degreesToTurn);
-	std::cout << "TurnDegrees" << std::endl;
+void DriveTime::Initialize() {
 }
 
 // Called repeatedly when this Command is scheduled to run
-void TurnDegrees::Execute() {
-	_done = _turnController.execute();
-	std::cout << "TurnDegrees::Execute()" << std::endl;
+void DriveTime::Execute() {
+	Robot::getInstance().getDriveTrain().Drive(_speed, 0.0);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool TurnDegrees::IsFinished() {
-	return _done;
+bool DriveTime::IsFinished() {
+	return IsTimedOut();
 }
 
 // Called once after isFinished returns true
-void TurnDegrees::End() {
-
+void DriveTime::End() {
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void TurnDegrees::Interrupted() {
+void DriveTime::Interrupted() {
 
 }

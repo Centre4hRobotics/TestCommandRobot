@@ -72,6 +72,9 @@ void SeekSpike::Execute() {
 
 	bool foundContour = table->GetBoolean("FoundContour", false);
 	table->PutNumber("Speed", speed);
+	std::cout << "Found Contour: " << foundContour << std::endl;
+	std::cout << "Speed: " << speed << std::endl;
+	std::cout << "Distance: " << distance << std::endl;
 
 	if (foundContour == false) {
 		_noContourCounter++;

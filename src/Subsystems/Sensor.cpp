@@ -42,12 +42,12 @@ double Sensor::getAverageUltrasonic() {
 
 	if (left > 0.0)
 	{
-		if (right > 0.0)
+		if (right > 0.1)
 			return 0.5*(left + right); // both valid
 		else
 			return left; // only left valid
 	}
-	else if (right > 0.0)
+	else if (right > 0.1)
 		return right; // only right valid
 	return -1.0; // neither valid
 }

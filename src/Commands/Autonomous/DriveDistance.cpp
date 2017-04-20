@@ -16,12 +16,14 @@ DriveDistance::DriveDistance(double inchesToDrive) {
 
 // Called just before this Command runs the first time
 void DriveDistance::Initialize() {
+	std::cout << "DriveDistance" << std::endl;
 	Robot::getInstance().getSensor().resetEncoders();
 	_done = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveDistance::Execute() {
+	std::cout << "DriveDistance::Execute()" << std::endl;
 	double speed = 0;
 	double steer = 0;
 	if (Robot::getInstance().getSensor().getEncoderDistance() >= _inchesToDrive)

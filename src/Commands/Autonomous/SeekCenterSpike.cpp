@@ -4,6 +4,8 @@
 #include "EnableLedRings.h"
 #include "Pause.h"
 
+#include "DriveTime.h"
+
 SeekCenterSpike::SeekCenterSpike() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
@@ -25,4 +27,5 @@ SeekCenterSpike::SeekCenterSpike() {
 	//AddSequential(new EnableLedRings());
 	AddSequential(new Pause(1.0));
 	AddSequential(new SeekSpike());
+	AddSequential(new DriveTime(1.0, 0.25));
 }
